@@ -34,7 +34,7 @@ const state = reactive({
     firstX:0,    // 当前的偏移距离
     basicX:0,   // 实时触摸点
     touchX:0,  // 按下时的触摸点
-    // index:currentIndex.index,    // 当前页面索引
+    index:0,    // 当前页面索引
     total:props.totals,    // 总页面数
     isEnd:false,    // 是否停止触摸 用于设置动态类名
     isTouch:false,  // 是否是由触摸翻页
@@ -42,15 +42,15 @@ const state = reactive({
     propsIndex:0,  // 缓存父组件传入的索引
 })
 
-const currentIndex = reactive({
-    index:0 // 当前页面索引
-})
+// const currentIndex = reactive({
+//     index:0 // 当前页面索引
+// })
 
 // watch(currentIndex,(newx) => {
 //     // console.log(newx.index)
 // })  // 监听当前的索引值
-
-defineExpose({currentIndex})  // 向父组件暴露这个接口值
+// defineExpose({currentIndex})
+defineExpose({state})  // 向父组件暴露这个接口值
 
 
 // const items = [
@@ -99,8 +99,8 @@ const swiperEnd = (event) => {
         if(state.firstX <= -state.windowWidth){
             state.basicX = state.firstX + state.windowWidth
             state.firstX = state.basicX
-            // state.index--
-            currentIndex.index--
+            state.index--
+            // currentIndex.index--
             // defineExpose({currentIndex})
             // console.log(state.index)
         }else{
@@ -111,8 +111,8 @@ const swiperEnd = (event) => {
         if(state.firstX >= -(state.windowWidth*(state.total-1))){
             state.basicX = state.firstX - state.windowWidth
             state.firstX = state.basicX
-            // state.index++
-            currentIndex.index++
+            state.index++
+            // currentIndex.index++
             // defineExpose({currentIndex})
             // console.log(state.index)
         }else{
@@ -140,7 +140,8 @@ onMounted(() => {
 nextTick(() => {
     state.basicX = -props.current*state.windowWidth
     state.firstX = state.basicX
-    currentIndex.index = props.current
+    // currentIndex.index = props.current
+    state.index = props.current
     state.propsIndex = props.current
 })
 
@@ -150,7 +151,8 @@ onUpdated(() => {
         state.basicX = -props.current*state.windowWidth
         state.firstX = state.basicX
         state.propsIndex = props.current  // 继续缓存
-        currentIndex.index = props.current  // 属性同步
+        // currentIndex.index = props.current  // 属性同步
+        state.index = props.current
         console.log('kkkk',props.current,currentIndex.index)
         state.isEnd = true
         // defineExpose({currentIndex})
