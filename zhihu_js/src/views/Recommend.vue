@@ -1,6 +1,6 @@
 <template>
-    <div style="background-color:green;width:100vw;height:100vh;">
-        recommend
+    <div class="swiperPage">
+        Recommend
     </div>
 </template>
 
@@ -8,6 +8,8 @@
 
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
+
+
 
 </style>

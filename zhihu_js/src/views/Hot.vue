@@ -1,5 +1,5 @@
 <template>
-    <div style="background-color:red;width:100vw;height:100vh;">
+    <div class="swiperPage">
         hot
     </div>
 </template>
@@ -8,6 +8,6 @@
 
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 
 </style>

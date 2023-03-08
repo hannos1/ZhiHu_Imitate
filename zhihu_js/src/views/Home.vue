@@ -25,9 +25,9 @@
         <main class="home_main">
             <MySwiper ref="pageSwiper" :totals="3" :current="state.pageindex" @increaseIndex="increaseIndex">
                 <template #listItem>
-                    <Hot />
-                    <Recommend />
                     <Idea />
+                    <Recommend />
+                    <Hot />
                 </template>
             </MySwiper>
         </main>

@@ -6,3 +6,10 @@
     --color-primary:#11bbd9;
     --shadow-base:rgba(105,105,105,0.1);
 }
+
+
+.swiperPage{
+    width:100vw;
+    height:calc(100vh - 2.72rem);
+    margin:1.28rem 0 1.44rem 0;
+}

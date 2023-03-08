@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import {ref,onMounted,reactive, nextTick,onUpdated,defineEmits} from 'vue'
+import {ref,onMounted,reactive,onUpdated} from 'vue'
 const props = defineProps({
     totals:{ // 总页面数
         type:Number,
@@ -98,12 +98,6 @@ onMounted(() => {
     state.propsIndex = props.current  // 初始化组件的索引
 })
 
-// nextTick(() => {  // 
-    // state.basicX = -props.current*state.windowWidth
-    // state.firstX = state.basicX
-    // state.index = props.current
-    // state.propsIndex = props.current
-// })
 
 onUpdated(() => { // 当拖动时组件索引发生改变时触发
     if(state.propsIndex !== props.current && state.isTouch === false){
@@ -119,12 +113,13 @@ onUpdated(() => { // 当拖动时组件索引发生改变时触发
 </script>
 
 <style lang="stylus">
-
+@import '../assets/styl/mixin.styl';
 
 .swiper_container
     --scroll-left:0
     --itemWidth:0
-    background-color red
+    bc()
+    // background-color red
     // position relative
     // top 0
     // left 0
