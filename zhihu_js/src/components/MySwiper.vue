@@ -1,34 +1,32 @@
 <template>
     <div class="swiper_container">
         <div class="swiper_block"
-         ref="swiper" 
+         ref="swiper"
          @touchstart="swiperTouch" 
          @touchmove="swiperMove" 
          @touchend="swiperEnd"
          :style="`--scroll-left: ${state.basicX}`+'px;'+`--itemWidth:${state.total*100}`+'vw'"
         :class="{transitioning:!state.isEnd}"
          >
-            <!-- :class="state.isEnd?'transitionEnd':'transitioning'" -->
-            <!-- <div class="swiper_item" v-for="item in items">
-                <slot name="item" v-bind="item"></slot>
-            </div>  -->  
-            <slot name="listItem"></slot>
+            <slot name="listItem" ></slot>
         </div>
     </div>
 </template>
 
 <script setup>
-import {ref,onMounted,reactive, nextTick,onUpdated,inject, watch} from 'vue'
+import {ref,onMounted,reactive, nextTick,onUpdated,defineEmits} from 'vue'
 const props = defineProps({
-    totals:{
+    totals:{ // 总页面数
         type:Number,
         default:3
     },
-    current:{
+    current:{  // 传入的页面索引接口
         type:Number,
         default:0
     }
 })
+
+const emits = defineEmits(['increaseIndex']) // 子组件修改父组件状态接口
 
 const state = reactive({
     firstX:0,    // 当前的偏移距离
@@ -42,56 +40,27 @@ const state = reactive({
     propsIndex:0,  // 缓存父组件传入的索引
 })
 
-// const currentIndex = reactive({
-//     index:0 // 当前页面索引
-// })
 
-// watch(currentIndex,(newx) => {
-//     // console.log(newx.index)
-// })  // 监听当前的索引值
-// defineExpose({currentIndex})
 defineExpose({state})  // 向父组件暴露这个接口值
 
 
-// const items = [
-//     {
-//         id:1,
-//         color:'background-color:blue;'
-//     },
-//     {
-//         id:2,
-//         color:'background-color:green;'
-//     },
-//     {
-//         id:3,
-//         color:'background-color:yellow;'
-//     }
-// ]
+const swiper = ref(null)  // swiper节点dom
 
-const swiper = ref(null)
-
-const swiperTouch = (event) => {
-    // console.log('鼠标按下了..')
+const swiperTouch = (event) => {  // 触摸时触发的函数
     state.touchX = event.touches[0].screenX
-    state.isTouch = true;
-    // console.log(state.touchX)
+    state.isTouch = true
     state.isEnd = false
-    // state.isTouch = true
 }
 
-const swiperMove = (event) => {
-    // console.log('鼠标移动了..',event)
+const swiperMove = (event) => {  // 拖动时触发的函数
     let moveX = event.touches[0].screenX
     if(state.basicX + moveX - state.touchX <= 0&&state.basicX + moveX - state.touchX>-(state.windowWidth*(state.total-1))){ // 如果越界了就不让它动
         state.basicX += moveX - state.touchX
         state.touchX = moveX
     }
-    
-    // console.log(state.basicX,state.firstX)
 }
 
-const swiperEnd = (event) => {
-    // console.log('停止移动',event)
+const swiperEnd = (event) => {  // 松开手时触发的函数
     state.isEnd = true
     let move = state.firstX - state.basicX
 
@@ -100,62 +69,50 @@ const swiperEnd = (event) => {
             state.basicX = state.firstX + state.windowWidth
             state.firstX = state.basicX
             state.index--
-            // currentIndex.index--
-            // defineExpose({currentIndex})
-            // console.log(state.index)
+            emits('increaseIndex', {p1:state.index})
         }else{
             state.basicX = state.firstX
         }
     }else if(move > 0 && Math.abs(move) > 60){
-        // console.log('hhhh')
         if(state.firstX >= -(state.windowWidth*(state.total-1))){
             state.basicX = state.firstX - state.windowWidth
             state.firstX = state.basicX
             state.index++
-            // currentIndex.index++
-            // defineExpose({currentIndex})
-            // console.log(state.index)
+            emits('increaseIndex', {p1:state.index})
         }else{
             state.basicX = state.firstX
         }
     }else{
         state.basicX = state.firstX
     }
-    // state.isTouch = false
-    // setTimeout(() => {
-    //     state.isTouch = false
-    // }, 1000);
     state.isTouch = false;
 }
 
 
 
 onMounted(() => {
-    // console.log(swiper.value)  //查看swiper节点
-    // console.log(document.documentElement.clientWidth)
-    state.windowWidth = document.documentElement.clientWidth
-    // console.log(state.total)
-})
-
-nextTick(() => {
-    state.basicX = -props.current*state.windowWidth
+    state.windowWidth = document.documentElement.clientWidth  // 初始化屏幕宽度为整个屏幕宽度
+    state.basicX = -props.current*state.windowWidth  // 初始化组件的x轴坐标
     state.firstX = state.basicX
-    // currentIndex.index = props.current
     state.index = props.current
-    state.propsIndex = props.current
+    state.propsIndex = props.current  // 初始化组件的索引
 })
 
-onUpdated(() => {
+// nextTick(() => {  // 
+    // state.basicX = -props.current*state.windowWidth
+    // state.firstX = state.basicX
+    // state.index = props.current
+    // state.propsIndex = props.current
+// })
+
+onUpdated(() => { // 当拖动时组件索引发生改变时触发
     if(state.propsIndex !== props.current && state.isTouch === false){
         state.isEnd = false
         state.basicX = -props.current*state.windowWidth
         state.firstX = state.basicX
         state.propsIndex = props.current  // 继续缓存
-        // currentIndex.index = props.current  // 属性同步
         state.index = props.current
-        console.log('kkkk',props.current,currentIndex.index)
         state.isEnd = true
-        // defineExpose({currentIndex})
     }
 })
 
@@ -168,7 +125,10 @@ onUpdated(() => {
     --scroll-left:0
     --itemWidth:0
     background-color red
-    position relative
+    // position relative
+    // top 0
+    // left 0
+    position fixed
     overflow hidden
     // transition: left 0.2s ease-in-out;
     .swiper_block

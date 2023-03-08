@@ -9,7 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "element3": "^0.0.40",
     "lib-flexible": "^0.3.2",
+    "pinia": "^2.0.33",
     "stylus": "^0.59.0",
     "vue": "^3.2.45",
     "vue-router": "^4.0.13"

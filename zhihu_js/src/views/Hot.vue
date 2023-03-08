@@ -1,5 +1,5 @@
 <template>
-    <div style="width:100vw;height:100vh;background-color:yellow;">
+    <div style="background-color:red;width:100vw;height:100vh;">
         hot
     </div>
 </template>

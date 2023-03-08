@@ -1,5 +1,5 @@
 <template>
-    <div style="width:100vw;height:100vh;background-color:red;">
+    <div style="background-color:yellow;width:100vw;height:100vh;">
         idea
     </div>
 </template>

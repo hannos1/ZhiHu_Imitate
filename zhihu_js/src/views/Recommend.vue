@@ -1,5 +1,5 @@
 <template>
-    <div style="width:100vw;height:100vh;background-color:white;">
+    <div style="background-color:green;width:100vw;height:100vh;">
         recommend
     </div>
 </template>

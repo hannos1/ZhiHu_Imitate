@@ -1,4 +1,8 @@
 :root {
     --color-base:black;
     --bgc-base:white;
+    --color-light:grey;
+    --color-Readed:grey;
+    --color-primary:#11bbd9;
+    --shadow-base:rgba(105,105,105,0.1);
 }
