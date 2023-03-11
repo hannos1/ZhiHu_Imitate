@@ -5,3 +5,5 @@
     npm i vue-router
     npm i lib-flexible
     npm i pinia
+    npm i mockjs
+    npm i axios
