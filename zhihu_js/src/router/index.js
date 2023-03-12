@@ -9,7 +9,14 @@ const routes = [
     {
         path:'/home',
         name:'home',
-        component:Home
+        component:Home,
+        children:[
+            {
+                path:'/tags',
+                name:'tags',
+                component:() => import('../views/second/Index.vue'),
+            }
+        ]
     },
     {
         path:'/concern',

@@ -48,7 +48,7 @@ import {ref,reactive,onMounted} from 'vue'
 let pageSwiper = ref(null)
 
 const state = reactive({
-    pageindex:0
+    pageindex:1
 })
 
 const increaseIndex = (params) => {

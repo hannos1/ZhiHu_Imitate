@@ -1,9 +1,9 @@
 <template>
     <div class="waterFall_box">
-        <div class="left_box" :style="`height:${state.maxheight}px`">
+        <div class="left_box" :style="`height:${state.maxheight/state.windowWidth}rem`">
             <div class="waterFall_item" v-for="item in state.leftList" :key="item.id">
                 <div class="item_img" 
-                :style="`height:${item.height}px;background-image:url('${item.pic}');`"></div>
+                :style="`height:${item.height/state.windowWidth}rem;background-image:url('${item.pic}');`"></div>
                 <div class="item_previewText">{{ item.title }}</div>
                 <div class="item_info">
                     <div class="item_info__avatarImg" :style="`background-image:url('${item.avatarImg}');`"></div>
@@ -20,10 +20,10 @@
                 </div>
             </div>
         </div>
-        <div class="right_box" :style="`height:${state.maxheight}px`">
+        <div class="right_box" :style="`height:${state.maxheight/state.windowWidth}rem`">
             <div class="waterFall_item" v-for="item in state.rightList" :key="item.id">
                 <div class="item_img" 
-                :style="`height:${item.height}px;background-image:url('${item.pic}');`"></div>
+                :style="`height:${item.height/state.windowWidth}rem;background-image:url('${item.pic}');`"></div>
                 <div class="item_previewText">{{ item.title }}</div>
                 <div class="item_info">
                     <div class="item_info__avatarImg" :style="`background-image:url('${item.avatarImg}');`"></div>
@@ -58,7 +58,8 @@ const state = reactive({  // 页面状态
     rightList:[],
     heights:[0,0], // 两列的高度
     maxheight:0,
-    allList:[]
+    allList:[],
+    windowWidth:0
 })
 
 const getMinHeight = (heights) => {
@@ -67,6 +68,8 @@ const getMinHeight = (heights) => {
 }
 
 onUpdated(() => {
+  state.windowWidth = document.documentElement.clientWidth / 10
+  console.log(state.windowWidth)
   if(props.waterData !== state.allList){
         const data = props.waterData;
         let leftTempGoods = [],
