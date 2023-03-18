@@ -69,7 +69,7 @@ const getMinHeight = (heights) => {
 
 onUpdated(() => {
   state.windowWidth = document.documentElement.clientWidth / 10
-  console.log(state.windowWidth)
+//   console.log(state.windowWidth)
   if(props.waterData !== state.allList){
         const data = props.waterData;
         let leftTempGoods = [],

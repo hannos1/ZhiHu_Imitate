@@ -7,14 +7,17 @@
             writing
         </main>
         <footer>
-            <MyTabBar />
+            <MyTabBar :current="state.current" />
         </footer>
     </div>
 </template>
 
 <script setup>
 import MyTabBar from '../components/MyTabBar.vue';
-
+import { reactive } from 'vue';
+const state = reactive({
+    current:'/writing'
+})
 
 </script>
 

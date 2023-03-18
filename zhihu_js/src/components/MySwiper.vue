@@ -3,7 +3,7 @@
         <div class="swiper_block"
          ref="swiper"
          @touchstart="swiperTouch" 
-         @touchmove="swiperMove" 
+         @touchmove="swiperMove"
          @touchend="swiperEnd"
          :style="`--scroll-left: ${state.basicX}`+'px;'+`--itemWidth:${state.total*100}`+'vw'"
         :class="{transitioning:!state.isEnd}"
@@ -15,6 +15,7 @@
 
 <script setup>
 import {ref,onMounted,reactive,onUpdated} from 'vue'
+import _ from 'lodash'
 const props = defineProps({
     totals:{ // 总页面数
         type:Number,
@@ -23,6 +24,10 @@ const props = defineProps({
     current:{  // 传入的页面索引接口
         type:Number,
         default:0
+    },
+    ifControl:{
+        type:Boolean,
+        default:true
     }
 })
 
@@ -38,6 +43,7 @@ const state = reactive({
     isTouch:false,  // 是否是由触摸翻页
     windowWidth:375, //当前设备的屏幕宽度 默认375
     propsIndex:0,  // 缓存父组件传入的索引
+    ifControl:false,  // 是否可以执行滚动 多层嵌套scroll时使用
 })
 
 
@@ -47,20 +53,38 @@ defineExpose({state})  // 向父组件暴露这个接口值
 const swiper = ref(null)  // swiper节点dom
 
 const swiperTouch = (event) => {  // 触摸时触发的函数
+    // event.preventDefault();
+    // console.log('touch')
+    // event.stopPropagation()
+    // if(props.ifControl){
     state.touchX = event.touches[0].screenX
     state.isTouch = true
     state.isEnd = false
+    state.ifControl = true  // 如果这个函数被执行了说明可以滚动
+    // }
 }
 
+
 const swiperMove = (event) => {  // 拖动时触发的函数
+    // event.preventDefault();
+    // console.log('scroll')
+    // event.stopPropagation()
+    // if(props.ifControl){
+    if(state.ifControl){
     let moveX = event.touches[0].screenX
     if(state.basicX + moveX - state.touchX <= 0&&state.basicX + moveX - state.touchX>-(state.windowWidth*(state.total-1))){ // 如果越界了就不让它动
         state.basicX += moveX - state.touchX
         state.touchX = moveX
-    }
+    }      
+  }
 }
 
 const swiperEnd = (event) => {  // 松开手时触发的函数
+    // event.preventDefault();
+    // console.log('end')
+    // event.stopPropagation()
+    // if(props.ifControl){
+    if(state.ifControl){
     state.isEnd = true
     let move = state.firstX - state.basicX
 
@@ -86,6 +110,8 @@ const swiperEnd = (event) => {  // 松开手时触发的函数
         state.basicX = state.firstX
     }
     state.isTouch = false;
+  }
+  state.ifControl = false;
 }
 
 
@@ -127,13 +153,15 @@ onUpdated(() => { // 当拖动时组件索引发生改变时触发
     overflow hidden
     // transition: left 0.2s ease-in-out;
     .swiper_block
+        z-index 999
+        // overflow hidden
         position relative
         display flex
         left calc(var(--scroll-left))
         top 0
         width calc(var(--itemWidth))
         height auto
-        transform translate(0,0,0)
+        transform: translateX(0)
         transition: all 0.2s ease-in-out;
         // &.transitionEnd
         //     transition: left 0.2s ease-in-out;

@@ -41,6 +41,13 @@
 import { reactive,onMounted } from 'vue';
 import {useRouter} from 'vue-router';
 
+const props = defineProps({
+    current:{
+        type:String,
+        default:''
+    }
+})
+
 const state = reactive({
     pagePath:'',
 })
@@ -54,8 +61,9 @@ const pageTo = (e) => {
 
 onMounted(() => {
     // console.log(router.currentRoute.value.path)
-    state.pagePath = router.currentRoute.value.path
+    // state.pagePath = router.currentRoute.value.path
     // console.log(state.pagePath)
+    state.pagePath = props.current
 })
 
 
