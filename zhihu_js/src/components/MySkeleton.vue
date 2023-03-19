@@ -121,6 +121,9 @@ onUpdated(() => {
                         border-radius .133333rem /* 5/37.5 */
                     &:last-child:before
                         right 5.333333rem /* 200/37.5 */
+.skeleton_content
+    height 100%
+    width 100%
                         
 
 

@@ -1,7 +1,7 @@
 <template>
     <div class="waterFall_box">
         <div class="left_box" :style="`height:${state.maxheight/state.windowWidth}rem`">
-            <div class="waterFall_item" v-for="item in state.leftList" :key="item.id">
+            <div class="waterFall_item" v-for="item in state.leftList" :key="item.id" @click="goto(item.path,item.pramas)">
                 <div class="item_img" 
                 :style="`height:${item.height/state.windowWidth}rem;background-image:url('${item.pic}');`"></div>
                 <div class="item_previewText">{{ item.title }}</div>
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="right_box" :style="`height:${state.maxheight/state.windowWidth}rem`">
-            <div class="waterFall_item" v-for="item in state.rightList" :key="item.id">
+            <div class="waterFall_item" v-for="item in state.rightList" :key="item.id" @click="goto(item.path,item.pramas)">
                 <div class="item_img" 
                 :style="`height:${item.height/state.windowWidth}rem;background-image:url('${item.pic}');`"></div>
                 <div class="item_previewText">{{ item.title }}</div>
@@ -45,6 +45,7 @@
 
 <script setup>
 import { onUpdated, reactive } from 'vue';
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
     waterData:{
@@ -52,6 +53,8 @@ const props = defineProps({
         default:[]
     }
 })
+
+const router = useRouter()
 
 const state = reactive({  // 页面状态
     leftList:[],
@@ -65,6 +68,10 @@ const state = reactive({  // 页面状态
 const getMinHeight = (heights) => {
   let minHeight = Math.min(...heights)
   return heights.indexOf(minHeight)
+}
+
+function goto(path,pramas){
+    router.push(path + '?' + pramas)
 }
 
 onUpdated(() => {

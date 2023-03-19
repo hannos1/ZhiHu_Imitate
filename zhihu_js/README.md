@@ -17,3 +17,14 @@
     一开始以为使用二级路由就能解决所有需求，实际开发发现需要三级路由
 
 
+
+
+//     const sleep = (t) => {
+//     return new Promise((resolve,reject) => {
+//       setTimeout(() => {
+//         resolve(t)
+//       },t)
+//     })
+//   }
+  
+//   const data = await Promise.all([sleep(4000),sleep(2000),sleep(1000)]);

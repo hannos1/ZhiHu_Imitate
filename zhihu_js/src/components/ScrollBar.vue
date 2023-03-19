@@ -1,12 +1,14 @@
 <template>
     <div class="scrollBar_container">
-        <div class="scrollBar_swiper" ref="swiper"
-        >
+        <div class="scrollBar_swiper" ref="swiper">
             <div class="scrollBar_swiper__content">
                 <div class="scrollBar_swiper__item" v-for="item in props.pathList" :key="item.id">
                     <div class="scrollBar_swiper__label" :class="{active:state.current === item.path}" @click="changePath(item.path)">{{ item.title }}</div>
                 </div>
             </div>
+        </div>
+        <div class="listSwitch" @click="changePathList()">
+                <i class="el-icon-s-fold"></i>
         </div>
     </div>
 </template>
@@ -38,6 +40,10 @@ let bs = null // betterscroll的初始值
 const state = reactive({ // 当前页面状态
     current:'',
 })
+
+function changePathList(){
+    console.log('修改pathlist还在开发中...')
+}
 
 onMounted(() => {
     state.current = props.current  // 初始化状态同步
@@ -74,9 +80,11 @@ onUpdated(() => {
     height 1.066667rem /* 40/37.5 */
     position relative
     z-index 999
+    display flex
     bc()
     .scrollBar_swiper
-        width 8.96rem /* 336/37.5 */
+        // width 8.96rem /* 336/37.5 */
+        flex 1
         height 1.066667rem /* 40/37.5 */
         position relative
         overflow hidden
@@ -98,6 +106,17 @@ onUpdated(() => {
                     &.active
                         color var(--color-base)
                         font-weight 700
+    .listSwitch
+        height 1.066667rem /* 40/37.5 */
+        width 1.066667rem /* 40/37.5 */
+        z-index 3000
+        display flex
+        justify-content center
+        align-items center
+        i
+            pc()
+            font-size 16px
+
 
 
 </style>

@@ -21,6 +21,9 @@
             <div class="header_message">
                 <i class="el-icon-chat-line-round"></i>
             </div>
+            <div class="header_search" @click="gotoSearch('/search')" v-if="state.pageindex!==1">
+                <i class="el-icon-search"></i>
+            </div>
         </header>
         <main class="home_main">
             <!-- <MySwiper ref="pageSwiper" :ifControl="state.ifControl" :totals="3" :current="state.pageindex" @increaseIndex="increaseIndex"> -->
@@ -50,8 +53,11 @@ import Hot from '../views/Hot.vue';
 import Recommend from '../views/Recommend.vue';
 import Idea from '../views/Idea.vue'
 import {ref,reactive,onMounted} from 'vue'
+import { useRouter } from 'vue-router';
 
 let pageSwiper = ref(null)
+
+const router = useRouter()
 
 const state = reactive({
     pageindex:1,
@@ -65,6 +71,10 @@ const increaseIndex = (params) => {
 
 const goto = (e) => {
     state.pageindex = e
+}
+
+const gotoSearch = (e) => {
+    router.push(e)
 }
 
 // const changeControl = (e) => {
@@ -82,6 +92,7 @@ onMounted(() => {
 @import '../assets/styl/mixin.styl';
 .home_container
     .home_header
+        position relative
         display flex
         position fixed
         z-index 999
@@ -122,6 +133,18 @@ onMounted(() => {
                         right -.053333rem /* 2/37.5 */
                         background-color blue
                         opacity 0.6
+        .header_search
+            height 1.28rem /* 48/37.5 */
+            position absolute
+            right 1.44rem /* 54/37.5 */
+            top 0
+            font-size .533333rem /* 20/37.5 */
+            display flex
+            align-items center
+            justify-content center
+                
+
+
                 
 
                 
