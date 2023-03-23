@@ -29,7 +29,7 @@ function backPage(){
 }
 
 function getMore(){
-    console.log('getmore还在开发中...')
+    alert('getmore还在开发中...')
 }
 
 </script>

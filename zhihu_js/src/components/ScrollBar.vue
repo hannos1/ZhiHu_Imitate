@@ -42,7 +42,7 @@ const state = reactive({ // 当前页面状态
 })
 
 function changePathList(){
-    console.log('修改pathlist还在开发中...')
+    alert('修改pathlist还在开发中...')
 }
 
 onMounted(() => {

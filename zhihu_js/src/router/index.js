@@ -10,7 +10,7 @@ const routes = [
         path:'/home',
         name:'home',
         component:Home,
-        redirect:'/home/tags', // 走弯路了，应该使用三级路由，但是踩坑必不可少吧
+        redirect:'/home/tags',
         children:[
             {
                 path:'/home/tags',
@@ -53,36 +53,57 @@ const routes = [
     {
         path:'/concern',
         name:'concern',
+        meta:{
+            description:'关注'
+        },
         component:() => import('../views/Concern.vue')
     },
     {
         path:'/writing',
         name:'writing',
+        meta:{
+            description:'写作'
+        },
         component:() => import('../views/Writing.vue')
     },
     {
         path:'/member',
         name:'member',
+        meta:{
+            description:'会员'
+        },
         component:() => import('../views/Member.vue')
     },
     {
         path:'/mine',
         name:'mine',
+        meta:{
+            description:'我的'
+        },
         component:() => import('../views/Mine.vue')
     },
     {
         path:'/search',
         name:'search',
+        meta:{
+            description:'搜索页面'
+        },
         component:() => import('../views/Search.vue')
     },
     {
         path:'/searchDetails',
         name:'searchDetails',
+        meta:{
+            description:'搜索后的列表页面'
+        },
         component:() => import('../views/SearchDetails.vue')
     },
     {
         path:'/details/1',
         name:'details_type1',
+        meta:{
+            description:'文章详情页，类型1'
+        },
         component:() => import('../views/details/Details_Type1.vue')
     }
 ]
