@@ -12,19 +12,7 @@
                 </header>
                 <main>
                     <div class="article_list">
-                        <div class="article_item" v-for="item in 5" @click="gotoPage('/details/1','一些热词')">
-                            <div class="article_title">大学没怎么学时刻提防就是立刻搭街坊昆仑山搭街坊立刻东非南非你你都开始ljfksdjfki</div>
-                            <div class="article_info">
-                                <div class="article_avatarimg"></div>
-                                <div class="article_username">风地带覅</div>
-                                <div class="article_usertag">附近的疾风地带覅</div>
-                            </div>
-                            <div class="article_main">我是一个角度上看附件上都是非法喂奶粉上帝就发我i恩覅owni愤怒的神佛i内非农哦i你身份为你服务念佛我发你十多年佛恩覅own发i粉丝佛i你问富翁偶分呢飞鸟我i发</div>
-                            <div class="article_footer">
-                                <div class="article_comments">0000 赞同 · 0000 收藏</div>
-                                <div class="article_close" @click="closeArticle">x</div>
-                            </div>
-                        </div>
+                        <PreviewCard></PreviewCard>
                     </div>
                 </main>
                 <footer></footer>
@@ -32,16 +20,12 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
+import PreviewCard from '../../components/PreviewCard.vue';
 
 const router = useRouter()
 
 function gotoPage(path,pramas){
     router.push(path + '?' + pramas)
-}
-
-function closeArticle(event){
-    event.stopPropagation() // 阻止事件冒泡
-    alert('是否关闭？')
 }
 
 </script>
@@ -112,68 +96,5 @@ header
 main
     .article_list
         width 100vw
-        .article_item
-            bc()
-            width calc(100vw - .64rem)
-            height auto
-            padding .426667rem .32rem 0 .32rem
-            margin-bottom .213333rem
-            .article_title
-                font-size .426667rem /* 16/37.5 */
-                font-weight 700
-            .article_info
-                box-sizing border-box
-                height .853333rem /* 32/37.5 */
-                width 100%
-                padding .133333rem 0
-                position relative
-                display flex 
-                align-items center
-                .article_avatarimg
-                    width .586667rem /* 22/37.5 */
-                    height .586667rem /* 22/37.5 */
-                    border-radius 50%
-                    background-color red
-                    background-position -50%
-                    background-size cover
-                    display inline-block
-                .article_username
-                    display inline-block
-                    font-size .373333rem /* 14/37.5 */
-                    font-weight 700
-                    padding 0 .213333rem /* 8/37.5 */
-                    color var(--color-Readed)
-                .article_usertag
-                    font-size .373333rem /* 14/37.5 */
-                    font-weight 500
-                    color var(--color-Readed)
-            .article_main
-                word-break break-all
-                overflow hidden
-                display -webkit-box
-                -webkit-line-clamp 2
-                -webkit-box-orient vertical
-                font-size .373333rem /* 14/37.5 */
-                font-weight normal
-                line-height 160%
-                color var(--color-discription)
-            .article_footer
-                display flex
-                position relative
-                align-items center
-                height .96rem /* 36/37.5 */
-                width 100%
-                .article_comments
-                    font-size .373333rem /* 14/37.5 */
-                    font-weight normal
-                    color var(--color-Readed)
-                .article_close
-                    width .64rem /* 24/37.5 */
-                    height .64rem /* 24/37.5 */
-                    text-align right 
-                    line-height .64rem /* 24/37.5 */
-                    font-size .426667rem /* 16/37.5 */
-                    color var(--color-Readed)
-                    position absolute
-                    right 0
+        
 </style>

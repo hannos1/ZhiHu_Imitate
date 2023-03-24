@@ -21,7 +21,7 @@
             <div class="header_message">
                 <img src="../assets/img/提醒.png" @click="gotoPage()" alt="">
             </div>
-            <div class="header_search" v-if="state.pageindex!==1">
+            <div class="header_search" v-if="state.showSearch||state.pageindex!==1">
                 <img src="../assets/img/搜索.png" @click="gotoPage('/search')" alt="">
             </div>
         </header>
@@ -34,7 +34,7 @@
                 <template #listItem>
                     <Idea />
                     <!-- <Recommend @changeControl="changeControl" /> -->
-                    <Recommend />
+                    <Recommend @changSearch="changSearch" />
                     <Hot />
                 </template>
             </MySwiper>
@@ -61,11 +61,16 @@ const router = useRouter()
 const state = reactive({
     pageindex:1,
     current:'/home',
+    showSearch:false
     // ifControl:true,
 })
 
 const increaseIndex = (params) => {
     state.pageindex = params.p1
+}
+
+function changSearch(e){
+    state.showSearch = e
 }
 
 const goto = (e) => {

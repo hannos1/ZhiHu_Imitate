@@ -4,7 +4,7 @@
 
         </header>
         <main>
-            
+
         </main>
         <footer>
             <MyTabBar :current="state.current" />

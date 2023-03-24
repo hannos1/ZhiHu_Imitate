@@ -8,7 +8,8 @@
             </div>
         </div>
         <div class="listSwitch" @click="changePathList()">
-                <i class="el-icon-s-fold"></i>
+                <!-- <i class="el-icon-s-fold"></i> -->
+                <img src="../assets/img/列表.png" alt="">
         </div>
     </div>
 </template>
@@ -116,6 +117,10 @@ onUpdated(() => {
         i
             pc()
             font-size 16px
+        img
+            background-position -50%
+            background-size cover
+            wh(.426667rem,.426667rem)
 
 
 

@@ -6,7 +6,7 @@
          @touchmove="swiperMove"
          @touchend="swiperEnd"
          :style="`--scroll-left: ${state.basicX}`+'px;'+`--itemWidth:${state.total*100}`+'vw'"
-        :class="{transitioning:!state.isEnd}"
+         :class="{transitioning:!state.isEnd}"
          >
             <slot name="listItem" ></slot>
         </div>
