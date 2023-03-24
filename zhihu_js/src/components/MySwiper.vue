@@ -37,6 +37,7 @@ const state = reactive({
     firstX:0,    // 当前的偏移距离
     basicX:0,   // 实时触摸点
     touchX:0,  // 按下时的触摸点
+    touchY:0,  // 按下时触摸点
     index:0,    // 当前页面索引
     total:props.totals,    // 总页面数
     isEnd:false,    // 是否停止触摸 用于设置动态类名
@@ -44,6 +45,7 @@ const state = reactive({
     windowWidth:375, //当前设备的屏幕宽度 默认375
     propsIndex:0,  // 缓存父组件传入的索引
     ifControl:false,  // 是否可以执行滚动 多层嵌套scroll时使用
+    ifHorizontal:false, // 是否横向移动
 })
 
 
@@ -53,38 +55,41 @@ defineExpose({state})  // 向父组件暴露这个接口值
 const swiper = ref(null)  // swiper节点dom
 
 const swiperTouch = (event) => {  // 触摸时触发的函数
-    // event.preventDefault();
-    // console.log('touch')
-    // event.stopPropagation()
-    // if(props.ifControl){
     state.touchX = event.touches[0].screenX
+    state.touchY = event.touches[0].screenY
     state.isTouch = true
     state.isEnd = false
     state.ifControl = true  // 如果这个函数被执行了说明可以滚动
-    // }
 }
 
 
 const swiperMove = (event) => {  // 拖动时触发的函数
-    // event.preventDefault();
-    // console.log('scroll')
-    // event.stopPropagation()
-    // if(props.ifControl){
     if(state.ifControl){
     let moveX = event.touches[0].screenX
+    let moveY = event.touches[0].screenY
+    let tan =  Math.abs(moveY*100000 - state.touchY*100000)/Math.abs(moveX*100000 - state.touchX*100000)
+    // console.log(tan,Math.tan(Math.PI / 2.3))
+
+    if(Math.tan(Math.PI / 4) < tan){ // 说明角度大于45度，不让它垂直移动
+        if(!state.ifHorizontal){
+            state.ifControl = false
+            state.touchX = moveX
+            state.touchY = moveY
+            return
+        }
+    }else{
+        state.ifHorizontal = true // 只需要第一次能通过检测就行
+    }
     if(state.basicX + moveX - state.touchX <= 0&&state.basicX + moveX - state.touchX>-(state.windowWidth*(state.total-1))){ // 如果越界了就不让它动
+        
         state.basicX += moveX - state.touchX
         state.touchX = moveX
+        state.touchY = moveY
     }      
   }
 }
 
 const swiperEnd = (event) => {  // 松开手时触发的函数
-    // event.preventDefault();
-    // console.log('end')
-    // event.stopPropagation()
-    // if(props.ifControl){
-    if(state.ifControl){
     state.isEnd = true
     let move = state.firstX - state.basicX
 
@@ -109,9 +114,9 @@ const swiperEnd = (event) => {  // 松开手时触发的函数
     }else{
         state.basicX = state.firstX
     }
-    state.isTouch = false;
-  }
-  state.ifControl = false;
+    state.isTouch = false
+    state.ifControl = false
+    state.ifHorizontal = false
 }
 
 

@@ -2,7 +2,7 @@
     <div class="home_container">
         <header class="home_header">
             <div class="header_history">
-                <i class="el-icon-files"></i>
+                <img src="../assets/img/分层.png" @click="gotoPage()" alt="">
             </div>
             <div class="header_pages">
                 <div class="header_page" 
@@ -19,14 +19,13 @@
                 >热榜</div>
             </div>
             <div class="header_message">
-                <i class="el-icon-chat-line-round"></i>
+                <img src="../assets/img/提醒.png" @click="gotoPage()" alt="">
             </div>
-            <div class="header_search" @click="gotoSearch('/search')" v-if="state.pageindex!==1">
-                <i class="el-icon-search"></i>
+            <div class="header_search" v-if="state.pageindex!==1">
+                <img src="../assets/img/搜索.png" @click="gotoPage('/search')" alt="">
             </div>
         </header>
         <main class="home_main">
-            <!-- <MySwiper ref="pageSwiper" :ifControl="state.ifControl" :totals="3" :current="state.pageindex" @increaseIndex="increaseIndex"> -->
             <MySwiper ref="pageSwiper" 
             :totals="3" 
             :current="state.pageindex" 
@@ -73,14 +72,14 @@ const goto = (e) => {
     state.pageindex = e
 }
 
-const gotoSearch = (e) => {
-    router.push(e)
+const gotoPage = (e) => {
+    if(e){
+        router.push(e)
+    }
+    else{
+        alert('还在开发中')
+    }
 }
-
-// const changeControl = (e) => {
-//     // console.log(e)
-//     state.ifControl = e
-// }
 
 onMounted(() => {
 
@@ -105,6 +104,9 @@ onMounted(() => {
             display flex
             align-items center
             justify-content center
+            img
+                width .64rem /* 24/37.5 */
+                height .64rem /* 24/37.5 */
             i
                 font-size .533333rem /* 20/37.5 */
         .header_pages
@@ -136,12 +138,17 @@ onMounted(() => {
         .header_search
             height 1.28rem /* 48/37.5 */
             position absolute
-            right 1.44rem /* 54/37.5 */
+            right 1.333333rem /* 50/37.5 */
             top 0
             font-size .533333rem /* 20/37.5 */
             display flex
             align-items center
             justify-content center
+            img
+                background-position -50%
+                background-size cover
+                width .64rem /* 24/37.5 */
+                height .64rem /* 24/37.5 */
                 
 
 

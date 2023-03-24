@@ -1,13 +1,15 @@
 <template>
     <div class="navBar_container">
         <div class="navBar_basictag" @click="backPage">
-            <i class="el-icon-arrow-left"></i>
+            <!-- <i class="el-icon-arrow-left"></i> -->
+            <img src="../assets/img/返回.png" alt="">
         </div>
         <div class="navBar_main">
             <slot name="navBar_main"></slot>
         </div>
         <div class="navBar_basictag" @click="getMore" v-if="props.ifShowMore">
-            <i class="el-icon-more"></i>
+            <!-- <i class="el-icon-more"></i> -->
+            <img src="../assets/img/更多.png" alt="">
         </div>
     </div>
 </template>
@@ -42,6 +44,11 @@ function getMore(){
     width 100vw
     display flex
     overflow hidden
+    img
+        background-position -50%
+        background-size cover
+        width .64rem /* 24/37.5 */
+        height .64rem /* 24/37.5 */
     .navBar_basictag
         width 1.28rem /* 48/37.5 */
         height 1.28rem /* 48/37.5 */
