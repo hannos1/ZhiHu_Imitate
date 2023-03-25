@@ -62,7 +62,8 @@ const routes = [
         path:'/writing',
         name:'writing',
         meta:{
-            description:'写作'
+            description:'写作',
+            login:true
         },
         component:() => import('../views/Writing.vue')
     },

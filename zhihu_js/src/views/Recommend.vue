@@ -27,12 +27,10 @@ import ScrollBar from '../components/ScrollBar.vue'
 import {getRecommend} from '../service/recommend'
 import BScroll from '@better-scroll/core';
 import _ from 'lodash'
-import MySwiper from '../components/MySwiper.vue';
 
 
 const swiper = ref(null) 
 const pageSwiper = ref(null)
-const mySwiper = ref(null)
 let pageBs = null
 let bs = null
 
@@ -53,16 +51,22 @@ function changeCurrent(e){
     router.push(e)
 }
 
-function increaseIndex(){
-
-}
 
 function bsScroll(pos){
     // console.log(pos.y)
-    if(pos.y > -45){
+    if(pos.y > -20){
         emits('changSearch',false)
     }else{
         emits('changSearch',true)
+    }
+}
+
+function pageBsScroll(bs){
+    console.log(bs,this.y)
+    if(this.y > -40 && this.y < 0){
+        bs.disable()
+    }else{
+        bs.enable()
     }
 }
 
@@ -74,6 +78,7 @@ onMounted(async () => {
     emits('changSearch',false)
 
     pageBs = new BScroll(pageSwiper.value,{
+        probeType:3,
         scrollX:false,
         scrollY:true,
         observeDOM:true,
@@ -89,6 +94,8 @@ onMounted(async () => {
         click:true,
         bounceTime:500,
     })
+
+    pageBs.on('scroll',_.throttle(pageBsScroll.bind(pageBs,bs),30))
 
     bs.on('scroll',_.throttle(bsScroll,30))
 
@@ -107,8 +114,6 @@ watch(route,() => {
         pageBs.enable()
     }
 })
-
-
 
 </script>
 

@@ -3,6 +3,7 @@
     :class="{active:state.isTouch}"
     :style="`--before-width:${state.beforeWidth}px;--before-height:${state.beforeHeight}px;--before-opacity:${state.beforeOpacity}`" 
     @touchstart="cardTouch" 
+    @touchmove="cardMove"
     @touchend="cardEnd"
     ref="card">
         <div class="article_title">大学没怎么学时刻提防就是立刻搭街坊昆仑山搭街坊立刻东非南非你你都开始ljfksdjfki</div>
@@ -16,6 +17,7 @@
             <div class="article_comments">0000 赞同 · 0000 收藏</div>
             <div class="article_close" 
             @touchstart="stopPro" 
+            @touchmove="stopPro" 
             @touchend="closeArticle">x</div>
         </div>
     </div>
@@ -32,10 +34,10 @@ const state = reactive({
     beforeWidth:0,
     beforeHeight:0,
     beforeOpacity:0,
-    isTouch:false,
-    timer:0,
-    pagePath:'/details/1',
-    end:false,
+    isTouch:false,  // 动态类名 是否触摸
+    timer:0, // 计时器id
+    pagePath:'/details/1',  // 路径 由父组件传递
+    end:false,  // 是否直接触发结束动画
 })
 
 const card = ref(null)
@@ -58,8 +60,9 @@ function cardTouch(){
     state.beforeWidth = card.value.clientWidth*1.5
     state.beforeHeight = card.value.clientHeight*1.5
     state.beforeOpacity = 0.2
-    state.timer = setTimeout(async () => {
-        clearTimeout(state.timer)
+    state.timer = setTimeout(async () => {  // 长按自动消除
+        // clearTimeout(state.timer)
+        // console.log('/////')
         state.beforeOpacity = 0.1
         await delay(200)
         state.beforeOpacity = 0
@@ -70,6 +73,7 @@ function cardTouch(){
         state.end = true
     },600)
 }
+
 
 function delay(s){
     return new Promise((resolve) => {
@@ -83,8 +87,27 @@ function stopPro(event){
     event.stopPropagation()
 }
 
+async function cardMove(){ // 如果移动了就是要翻页
+    // console.log('move')
+    clearTimeout(state.timer)  // 清除之前的timer
+    state.end = true  // 翻页不用跳转
+    state.timer = setTimeout(async () => {
+        if(state.isTouch){
+            state.beforeOpacity = 0.1
+            await delay(200)
+            state.beforeOpacity = 0
+            await delay(200)
+            state.isTouch = false
+            state.beforeWidth = card.value.clientWidth*0.6
+            state.beforeHeight = card.value.clientHeight*0.6
+        }
+    },0)
+}
 
-async function cardEnd(){
+
+async function cardEnd(){  // 短按会跳转
+    // console.log('end',state.end)
+    // clearTimeout(state.timer)
     if(!state.end){
         clearTimeout(state.timer)
         state.beforeOpacity = 0.1

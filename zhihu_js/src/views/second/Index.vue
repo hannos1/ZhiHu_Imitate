@@ -1,21 +1,23 @@
 <template>
-                <header>
-                    <div class="icon_logo">
-                        <img src="../../assets/img/test.png" alt="">
-                    </div>
-                    <div class="icon_search">
-                        <div class="search_box">
-                            <div class="placeHolder" @click="gotoPage('/search','placeholder')">一些热词jfksfjksdfsdfsdfsdfsdfsdfsdfsdfdjfkdjfkdfj</div>
-                            <div class="button_label" @click="gotoPage('/searchDetails','一些热词')">搜索</div>
-                        </div>
-                    </div>
-                </header>
-                <main>
-                    <div class="article_list">
-                        <PreviewCard></PreviewCard>
-                    </div>
-                </main>
-                <footer></footer>
+    <header>
+        <div class="icon_logo">
+            <img src="../../assets/img/test.png" alt="">
+        </div>
+        <div class="icon_search">
+            <div class="search_box">
+                <div class="placeHolder" @click="gotoPage('/search','placeholder')">一些热词jfksfjksdfsdfsdfsdfsdfsdfsdfsdfdjfkdjfkdfj</div>
+                <div class="button_label" @click="gotoPage('/searchDetails','一些热词')">搜索</div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="article_list">
+            <div v-for="item in 7" :key="item">
+                <PreviewCard></PreviewCard>
+            </div>
+        </div>
+    </main>
+    <footer></footer>
 </template>
 
 <script setup>
