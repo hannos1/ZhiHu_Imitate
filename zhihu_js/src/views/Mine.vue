@@ -27,7 +27,7 @@
                 <div class="page_swiper" ref="pageSwiper">
                     <div class="page_content">
                         <div class="login_section">
-                            <BeforeLogin v-if="false">
+                            <BeforeLogin @gotoPage="gotoPage" v-if="true">
 
                             </BeforeLogin>
                             <AfterLogin v-else>

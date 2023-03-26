@@ -106,6 +106,14 @@ const routes = [
             description:'文章详情页，类型1'
         },
         component:() => import('../views/details/Details_Type1.vue')
+    },
+    {
+        path:'/login',
+        name:'login',
+        meta:{
+            description:'登录页...'
+        },
+        component:() => import('../views/Login.vue')
     }
 ]
 
