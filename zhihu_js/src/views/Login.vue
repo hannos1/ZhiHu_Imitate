@@ -12,25 +12,22 @@
                 <input type="text" class="account" name="account" 
                 v-model="state.account"
                 placeholder="手机号或邮箱"
-                required
                 />
                 <input type="password" class="password" name="password"
                 v-model="state.password" 
                 placeholder="密码" 
-                required
                 />
                 <input type="password" class="repassword" name="repassword" 
                 v-model="state.repassword"
                 placeholder="确认密码" 
                 style="margin-bottom:32px;"
                 v-if="state.type !== 'login'"
-                required
                 />
                 <div class="argumentBox" v-else>
                     <input type="radio" name="argument" @click="isArgument" :checked="state.isArgument" />
                     <div class="rawlabel">我已经知晓<i style="color:blue;">《xxx协议》</i></div>
                 </div>
-                <button class="submit" type="submit">{{ state.button }}</button>
+                <button class="submit" :disabled="!verify()" :class="{cative:verify()}" type="submit">{{ state.button }}</button>
             </form>
         </main>
         <footer>
@@ -43,6 +40,9 @@
 <script setup>
 import { reactive } from 'vue';
 import {useRouter} from 'vue-router'
+import {login,register} from '../service/login'
+import { showToast,closeToast } from 'vant';
+import md5 from 'js-md5'
 
 const router = useRouter()
 
@@ -59,7 +59,7 @@ const state = reactive({
 function loginForm(){
     return {
         account:state.account,
-        password:state.password,
+        password:md5(state.password),
         isArgument:state.isArgument?1:0
     }
 }
@@ -67,38 +67,57 @@ function loginForm(){
 function registerForm(){
     return {
         account:state.account,
-        password:state.password,
-        repassword:state.repassword
+        password:md5(state.password),
+        repassword:md5(state.repassword)
     }
 }
 
 function verify(){
+    if(state.account === ''){
+        return false
+    }
+    if(state.password === ''){
+        return false
+    }
     if(state.type === 'login'){
         if(!state.isArgument){
-            alert('请勾选下方的按钮')
             return false
         }
     }else{
+        if(state.repassword === ''){
+            return false
+        }
         if(state.password !== state.repassword){
-            alert('两次密码应该相同')
             return false
         }
     }
     return true
 }
 
+
 async function sendForm(e){
     e.preventDefault()
     let data = {}
-    if(state.type === 'login'){
-        data = loginForm()
-    }else{
-        data = registerForm()
-    }
-    console.log(data)
+    let returnData = {}
     if(verify()){
-        console.log(state.type + 'success')
+        if(state.type === 'login'){
+            data = loginForm()
+            showToast({
+                message:'正在登录中...',
+                forbidClick:true,
+            })
+            returnData = await login(data)
+        }else{
+            data = registerForm()
+            showToast({
+                message:'请稍后...',
+                forbidClick:true,
+            })
+            returnData = await register(data)
+        }
     }
+    closeToast()
+    // console.log(returnData)
 }
 
 function changeType(e){
@@ -110,6 +129,10 @@ function changeType(e){
         state.title = '设置密码'
         state.button = '确认'
     }
+    state.account = ''
+    state.password = ''
+    state.repassword = ''
+    state.isArgument = false
 }
 
 function back(){
@@ -119,6 +142,7 @@ function back(){
 function isArgument(){
     state.isArgument = !state.isArgument
 }
+
 
 </script>
 
@@ -192,6 +216,8 @@ function isArgument(){
                 border-radius .773333rem /* 29/37.5 */
                 position relative
                 top -30px
+                &.cative
+                    background-color blue
     footer
         .register,.login
             height .586667rem /* 22/37.5 */
@@ -200,13 +226,8 @@ function isArgument(){
             font-size .32rem /* 12/37.5 */
             text-align center
             position relative
-            width 100vw
             top -70px
-
-
-                
-                
-                
-                
-
+            width 1.6rem /* 60/37.5 */
+            left 50%
+            transform translate(-50%,0)
 </style>

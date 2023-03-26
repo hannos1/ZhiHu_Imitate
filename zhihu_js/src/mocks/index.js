@@ -63,3 +63,12 @@ Mock.mock(/\/recommend/,'get',()=>{
     ]
 })
 
+
+Mock.mock(/\/login/,'post',(e) => {
+    console.log(e)
+})
+
+
+Mock.mock(/\/register/,'post',(e) => {
+    console.log(e)
+})
