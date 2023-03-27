@@ -62,7 +62,7 @@ function bsScroll(pos){
 }
 
 function pageBsScroll(bs){
-    console.log(bs,this.y)
+    // console.log(bs,this.y)
     if(this.y > -40 && this.y < 0){
         bs.disable()
     }else{

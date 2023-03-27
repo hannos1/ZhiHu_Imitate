@@ -94,6 +94,9 @@ function gotoPage(path,pramas){
 function exit(){
     userStore.exitLogin()
     state.isLogin = userStore.islogin
+    state.concern = 0
+    state.collection = 0
+    state.recent = 0
     // console.log('退出...')
 }
 
