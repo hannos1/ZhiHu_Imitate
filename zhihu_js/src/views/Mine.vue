@@ -16,7 +16,7 @@
                 <template #right>
                     <div class="img_box__right">
                         <img src="../assets/img/月亮.png" alt="">
-                        <img src="../assets/img/设置.png" alt="">
+                        <img src="../assets/img/设置.png" @click="exit" alt="">
                         <img src="../assets/img/提醒.png" alt="">
                     </div>
                 </template>
@@ -27,28 +27,26 @@
                 <div class="page_swiper" ref="pageSwiper">
                     <div class="page_content">
                         <div class="login_section">
-                            <BeforeLogin @gotoPage="gotoPage" v-if="true">
-
+                            <BeforeLogin @gotoPage="gotoPage" v-if="!state.isLogin">
                             </BeforeLogin>
                             <AfterLogin v-else>
-
                             </AfterLogin>
                         </div>
                         <div class="user_info">
-                            <div class="info_item" v-if="true">
+                            <div class="info_item" v-if="state.isLogin">
                                 <div class="item_num" style="font-size:12px;font-weight:500;color:#64aafb;">未开通</div>
                                 <div class="item_title">创作</div>
                             </div>
                             <div class="info_item">
-                                <div class="item_num">1</div>
+                                <div class="item_num">{{ state.concern }}</div>
                                 <div class="item_title">关注</div>
                             </div>
                             <div class="info_item">
-                                <div class="item_num">0</div>
+                                <div class="item_num">{{ state.collection }}</div>
                                 <div class="item_title">收藏</div>
                             </div>
                             <div class="info_item">
-                                <div class="item_num">36</div>
+                                <div class="item_num">{{ state.recent }}</div>
                                 <div class="item_title">最近浏览</div>
                             </div>
                         </div>
@@ -65,27 +63,41 @@
 
 <script setup>
 import MyTabBar from '../components/MyTabBar.vue';
-import { reactive,ref,onMounted } from 'vue';
+import { reactive,ref,onMounted,watch } from 'vue';
 import SimpleHeader from '../components/SimpleHeader.vue';
 import { useRouter } from 'vue-router';
 import BScroll from '@better-scroll/core';
 import BeforeLogin from '../components/login/BeforeLogin.vue'
 import AfterLogin from '../components/login/AfterLogin.vue'
+import {useUserStore} from '../store/user'
+import {getUser} from '../service/user'
 
 let pageSwiper = ref(null)
 let pageBs = null
+const userStore = useUserStore()
 
 const router = useRouter()
+
+const state = reactive({
+    current:'/mine',
+    isLogin:false,
+    userinfo:{},
+    concern:0,
+    collection:0,
+    recent:0
+})
 
 function gotoPage(path,pramas){
     router.push(path + '?' + pramas)
 }
 
-const state = reactive({
-    current:'/mine'
-})
+function exit(){
+    userStore.exitLogin()
+    state.isLogin = userStore.islogin
+    // console.log('退出...')
+}
 
-onMounted(() => {
+onMounted(async () => {
     pageBs = new BScroll(pageSwiper.value,{
         probeType:3,
         scrollX:false,
@@ -94,6 +106,17 @@ onMounted(() => {
         click:true,
         bounce:false,
     })
+    userStore.updateLogin() // 更新状态
+    state.isLogin = userStore.islogin
+    if(state.isLogin){
+        let userData = await getUser()
+
+        if(userData){
+            state.concern = userData.concern
+            state.collection = userData.collection
+            state.recent = userData.recent
+        }
+    }
 })
 
 </script>
@@ -143,7 +166,7 @@ onMounted(() => {
                 height calc(100vh - 2.933333rem)
                 .page_content
                     width 100vw
-                    height 800px
+                    height 800px // auto
                     .login_section
                         // wh(100vw,3.68rem /* 138/37.5 */)
                         width 100vw

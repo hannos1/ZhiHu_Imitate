@@ -2,17 +2,17 @@
     <div class="after_container">
         <div class="user_info">
             <div class="user_avater">
-                <img src="../../assets/img/太阳.png" alt="">
+                <img :src="state.avatarImg" alt="">
             </div>
             <div class="user_tags">
                 <div class="user_labelbox">
-                    <div class="user_name">sdkfjls你好吗</div>
+                    <div class="user_name">{{ state.username }}</div>
                     <div class="user_center">个人中心 ></div>
                 </div>
                 <div class="user_energy">
                     <img src="../../assets/img/爱心.png" alt="">
                     <div class="energy_label">
-                        知乎盐值: 224 >
+                        知乎盐值: {{ state.userenergy }} >
                     </div>
                 </div>
             </div>
@@ -21,6 +21,24 @@
 </template>
 
 <script setup>
+import {reactive,onMounted} from 'vue'
+import {getUser} from '../../service/user'
+
+const state = reactive({
+    username:'',
+    userenergy:0,
+    avatarImg:''
+})
+
+onMounted(async () => {
+    let userData = await getUser()
+    if(userData){
+        state.avatarImg = userData.avatarImg
+        state.userenergy = userData.energy
+        state.username = userData.username
+    }
+    // console.log('data',userData)
+})
 
 </script>
 

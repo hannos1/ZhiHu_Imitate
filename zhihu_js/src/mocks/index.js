@@ -65,10 +65,31 @@ Mock.mock(/\/recommend/,'get',()=>{
 
 
 Mock.mock(/\/login/,'post',(e) => {
-    console.log(e)
+    // console.log(e.body)
+    return {
+        msg:'登录成功...',
+        code:200,
+        token:'fsdifowenfo'
+    }
 })
 
 
 Mock.mock(/\/register/,'post',(e) => {
-    console.log(e)
+    // console.log(e)
+    return {
+        code:300,
+        msg:'注册成功'
+    }
+})
+
+Mock.mock(/\/getuser/,'get',(e)=>{
+    return {
+        account:454654541,
+        avatarImg:'https://tse1-mm.cn.bing.net/th/id/OIP-C.qebt1PBL2zYXGXsHVMPTXAAAAA?w=210&h=210&c=7&r=0&o=5&dpr=1.3&pid=1.7',
+        username:'普通用户FIN',
+        energy:300,
+        concern:5,
+        collection:10,
+        recent:50
+    }
 })

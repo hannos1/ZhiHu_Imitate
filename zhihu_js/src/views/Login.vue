@@ -43,8 +43,10 @@ import {useRouter} from 'vue-router'
 import {login,register} from '../service/login'
 import { showToast,closeToast } from 'vant';
 import md5 from 'js-md5'
+import {useUserStore} from '../store/user'
 
 const router = useRouter()
+const userStore = useUserStore()
 
 const state = reactive({
     title:'密码登录',
@@ -117,7 +119,16 @@ async function sendForm(e){
         }
     }
     closeToast()
-    // console.log(returnData)
+    // console.log('returndata',returnData)
+    if(returnData.code === 200){
+        await userStore.userLogin(returnData.token)
+        router.go(-1)
+    }else if(returnData.code === 300){
+        // router.push('/login')
+        changeType('login')
+    }else{
+        console.log('登录失败...')
+    }
 }
 
 function changeType(e){
