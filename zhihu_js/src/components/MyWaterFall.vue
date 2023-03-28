@@ -1,8 +1,9 @@
 <template>
     <div class="waterFall_box">
         <div class="left_box" :style="`height:${state.maxheight/state.windowWidth}rem`">
+            <lazy-component>
             <div class="waterFall_item" v-for="item in state.leftList" :key="item.id" @click="goto(item.path,item.pramas)">
-                <div class="item_img" 
+                <div class="item_img"
                 :style="`height:${item.height/state.windowWidth}rem;background-image:url('${item.pic}');`"></div>
                 <div class="item_previewText">{{ item.title }}</div>
                 <div class="item_info">
@@ -19,8 +20,10 @@
                     </div>
                 </div>
             </div>
+            </lazy-component>
         </div>
         <div class="right_box" :style="`height:${state.maxheight/state.windowWidth}rem`">
+            <lazy-component>
             <div class="waterFall_item" v-for="item in state.rightList" :key="item.id" @click="goto(item.path,item.pramas)">
                 <div class="item_img" 
                 :style="`height:${item.height/state.windowWidth}rem;background-image:url('${item.pic}');`"></div>
@@ -39,6 +42,7 @@
                     </div>
                 </div>
             </div>
+            </lazy-component>
         </div>
     </div>
 </template>

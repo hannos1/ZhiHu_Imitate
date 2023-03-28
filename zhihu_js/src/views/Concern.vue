@@ -4,7 +4,6 @@
 
         </header>
         <main>
-
         </main>
         <footer>
             <MyTabBar :current="state.current" />
@@ -14,11 +13,12 @@
 
 <script setup>
 import MyTabBar from '../components/MyTabBar.vue';
-import { reactive,onMounted } from 'vue';
+import { reactive,onMounted,ref } from 'vue';
 
 const state = reactive({
   current:'/concern'
 })
+
 
 </script>
 

@@ -11,9 +11,9 @@
         </div>
     </header>
     <main>
-        <div class="article_list">
-            <div v-for="item in 7" :key="item">
-                <PreviewCard></PreviewCard>
+        <div class="article_list" v-if="state.pageData.length !== 0">
+            <div v-for="item in state.pageData" :key="item.id">
+                <PreviewCard :data="item"></PreviewCard>
             </div>
         </div>
     </main>
@@ -23,12 +23,26 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import PreviewCard from '../../components/PreviewCard.vue';
+import {onMounted,inject,reactive,onUpdated} from 'vue'
+import {getRecommendIndex} from '../../service/recommend'
+
+const { changeReady } = inject('isReady')
 
 const router = useRouter()
+const state = reactive({
+    pageData:[],
+    isready:false
+})
 
 function gotoPage(path,pramas){
     router.push(path + '?' + pramas)
 }
+
+onMounted(async () => {
+    state.pageData = await getRecommendIndex()
+    console.log(state.pageData,'///')
+    await changeReady(true)
+})
 
 </script>
 

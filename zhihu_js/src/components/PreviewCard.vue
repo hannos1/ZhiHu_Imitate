@@ -6,20 +6,32 @@
     @touchmove="cardMove"
     @touchend="cardEnd"
     ref="card">
-        <div class="article_title">大学没怎么学时刻提防就是立刻搭街坊昆仑山搭街坊立刻东非南非你你都开始ljfksdjfki</div>
+        <div class="article_title">{{ state.data.title }}</div>
         <div class="article_info">
             <div class="article_avatarimg"></div>
-            <div class="article_username">风地带覅</div>
-            <div class="article_usertag">附近的疾风地带覅</div>
+            <div class="article_username">{{ state.data.authorName }}</div>
+            <div class="article_usertag">{{ state.data.tag }}</div>
         </div>
-        <div class="article_main">我是一个角度上看附件上都是非法喂奶粉上帝就发我i恩覅owni愤怒的神佛i内非农哦i你身份为你服务念佛我发你十多年佛恩覅own发i粉丝佛i你问富翁偶分呢飞鸟我i发</div>
+        <div class="article_main">{{ state.data.aritcle }}</div>
         <div class="article_footer">
-            <div class="article_comments">0000 赞同 · 0000 收藏</div>
+            <div class="article_comments">{{ state.data.likes }} 赞同 · {{ state.data.collection }} 收藏</div>
             <div class="article_close" 
             @touchstart="stopPro" 
             @touchmove="stopPro" 
             @touchend="closeArticle">x</div>
         </div>
+    <van-popup
+        v-model:show="showBottom"
+        position="bottom"
+        closeable
+        round
+        lazy-render
+        :close-on-click-overlay="false"
+        teleport="body"
+        :style="{ height: '30%' }"
+    >
+    yixie
+    </van-popup>
     </div>
 </template>
 
@@ -30,17 +42,28 @@ import _ from "lodash"
 
 const router = useRouter()
 
+const props = defineProps({
+    data:{
+        type:Object,
+        default:{}
+    }
+})
+
 const state = reactive({
+    data:{},
     beforeWidth:0,
     beforeHeight:0,
     beforeOpacity:0,
     isTouch:false,  // 动态类名 是否触摸
     timer:0, // 计时器id
-    pagePath:'/details/1',  // 路径 由父组件传递
+    pagePath:'',  // 路径 由父组件传递
     end:false,  // 是否直接触发结束动画
+    pramas:'',
 })
 
 const card = ref(null)
+
+let showBottom = ref(false)
 
 function gotoPage(path,pramas){
     state.timer = setTimeout(()=> { 
@@ -50,8 +73,8 @@ function gotoPage(path,pramas){
 
 function closeArticle(event){
     event.stopPropagation() // 阻止事件冒泡
-    // alert('是否关闭？')
-    console.log('///',event.target)
+    showBottom.value = true
+    // console.log('///',event.target)
 }
 
 function cardTouch(){
@@ -123,6 +146,10 @@ async function cardEnd(){  // 短按会跳转
 }
 
 onMounted(() => {
+    state.data = props.data
+    console.log(state.data,props.data,'/////')
+    state.pagePath = props.data.path
+    state.pramas = props.data.pramas
     state.beforeWidth = card.value.clientWidth*0.6
     state.beforeHeight = card.value.clientHeight*0.6
 })

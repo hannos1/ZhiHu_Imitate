@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-import { ref,onMounted,reactive,onUpdated,watch } from 'vue';
+import { ref,onMounted,reactive,onUpdated,watch,provide } from 'vue';
 import { useRouter,useRoute } from 'vue-router';
 import MySkeleton from '../components/MySkeleton.vue'
 import ScrollBar from '../components/ScrollBar.vue'
@@ -40,7 +40,7 @@ const route = useRoute()
 const emits = defineEmits(['changSearch'])
 
 const state = reactive({
-    isReady:true,
+    isReady:false,
     pathList:[],
     currentPath:'/home/tags',
     pageNum:0
@@ -60,6 +60,14 @@ function bsScroll(pos){
         emits('changSearch',true)
     }
 }
+
+function changeReady(b){
+    state.isReady = b
+}
+
+provide('isReady', {  // 依赖注入
+  changeReady
+})
 
 function pageBsScroll(bs){
     // console.log(bs,this.y)
@@ -98,7 +106,6 @@ onMounted(async () => {
     pageBs.on('scroll',_.throttle(pageBsScroll.bind(pageBs,bs),30))
 
     bs.on('scroll',_.throttle(bsScroll,30))
-
 })
 
 watch(route,() => {

@@ -12,6 +12,18 @@
                 <img src="../assets/img/列表.png" alt="">
         </div>
     </div>
+    <van-popup
+        v-model:show="showBottom"
+        position="bottom"
+        closeable
+        round
+        lazy-render
+        teleport="body"
+        :close-on-click-overlay="false"
+        :style="{ height: '100%' }"
+    >
+    一些内容
+    </van-popup>
 </template>
 
 <script setup>
@@ -42,8 +54,12 @@ const state = reactive({ // 当前页面状态
     current:'',
 })
 
+let showBottom = ref(false)
+
 function changePathList(){
-    alert('修改pathlist还在开发中...')
+    showBottom.value = true
+    // alert('修改pathlist还在开发中...')
+
 }
 
 onMounted(() => {

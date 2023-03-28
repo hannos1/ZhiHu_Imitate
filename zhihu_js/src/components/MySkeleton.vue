@@ -83,8 +83,8 @@ onUpdated(() => {
 <style lang="stylus" scoped>
 .skeleton_temp
     --scrollColor:''
-    width 100%
-    height 100%
+    width 100vw
+    height calc(100vh - 3.786667rem)
     .floor1
     // ul
         width 100%

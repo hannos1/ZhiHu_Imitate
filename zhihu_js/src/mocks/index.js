@@ -93,3 +93,22 @@ Mock.mock(/\/getuser/,'get',(e)=>{
         recent:50
     }
 })
+
+Mock.mock(/\/indexOfRecommend/,'get',(e)=>{
+    const data = [];
+    for(let i = 0;i < 10;i++){
+        let item = {
+            id:i,
+            title:Random.csentence(5,30),
+            authorName:Random.name(),
+            tag:Random.csentence(3,5),
+            aritcle:Random.csentence(20,40),
+            likes:Math.floor(Math.random()*501),
+            collection:Math.floor(Math.random()*501),
+            path:'/details/1',
+            pramas:'sdfewofko'
+        }
+        data.push(item)
+    }
+    return data;
+})
