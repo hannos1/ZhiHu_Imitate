@@ -22,7 +22,7 @@
         :close-on-click-overlay="false"
         :style="{ height: '100%' }"
     >
-    一些内容
+    <PathList />
     </van-popup>
 </template>
 
@@ -30,6 +30,7 @@
 import { onMounted,ref,reactive,onUpdated } from 'vue';
 import BScroll from '@better-scroll/core';
 import ObserveDOM from '@better-scroll/observe-dom';
+import PathList from './popup/PathList.vue';
 
 const props = defineProps({
     pathList:{

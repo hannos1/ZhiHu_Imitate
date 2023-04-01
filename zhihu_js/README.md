@@ -1,7 +1,5 @@
-- 依赖包
-    npm i
+- 依赖包，项目运行异常时使用
     npm i stylus 
-    <!-- npm i element3 删除 -->
     npm i vue-router
     npm i lib-flexible
     npm i pinia

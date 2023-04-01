@@ -12,7 +12,7 @@
     </header>
     <main>
         <div class="article_list" v-if="state.pageData.length !== 0">
-            <div v-for="item in state.pageData" :key="item.id">
+            <div v-for="item in state.pageData" :key="item.id" :class="{negative:state.closeId === item.id}">
                 <PreviewCard :data="item"></PreviewCard>
             </div>
         </div>
@@ -23,7 +23,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import PreviewCard from '../../components/PreviewCard.vue';
-import {onMounted,inject,reactive,onUpdated} from 'vue'
+import {onMounted,inject,reactive,onUpdated,provide} from 'vue'
 import {getRecommendIndex} from '../../service/recommend'
 
 const { changeReady } = inject('isReady')
@@ -31,16 +31,31 @@ const { changeReady } = inject('isReady')
 const router = useRouter()
 const state = reactive({
     pageData:[],
-    isready:false
+    isready:false,
+    closeId:-1,
 })
 
 function gotoPage(path,pramas){
     router.push(path + '?' + pramas)
 }
 
+async function removeById(id){  // 这里做数据删除
+    state.closeId = id
+    // console.log(state.closeId)
+    await setTimeout(() => {
+        state.pageData = state.pageData.filter((item) => item.id !== id)
+        state.closeId = -1
+    },600)
+    // console.log(state.pageData,id)
+}
+
+provide('closeCard', {
+    removeById
+})
+
 onMounted(async () => {
     state.pageData = await getRecommendIndex()
-    console.log(state.pageData,'///')
+    // console.log(state.pageData,'///')
     await changeReady(true)
 })
 
@@ -112,5 +127,9 @@ header
 main
     .article_list
         width 100vw
+        div
+            transition all 0.3s
+        .negative
+            opacity 0
         
 </style>

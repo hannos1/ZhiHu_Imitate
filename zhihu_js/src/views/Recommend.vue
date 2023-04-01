@@ -106,21 +106,23 @@ onMounted(async () => {
     pageBs.on('scroll',_.throttle(pageBsScroll.bind(pageBs,bs),30))
 
     bs.on('scroll',_.throttle(bsScroll,30))
+
+    watch(route,() => {
+        state.currentPath = route.path
+        // console.log(route.path)
+        if(route.path !== '/home/tags'){
+            if(route.path !== ''){
+                emits('changSearch',true)
+            }
+            pageBs.disable()
+        }else{
+            emits('changSearch',false)
+            pageBs.enable()
+        }
+    })
 })
 
-watch(route,() => {
-    state.currentPath = route.path
-    // console.log(route.path)
-    if(route.path !== '/home/tags'){
-        if(route.path !== ''){
-            emits('changSearch',true)
-        }
-        pageBs.disable()
-    }else{
-        emits('changSearch',false)
-        pageBs.enable()
-    }
-})
+
 
 </script>
 

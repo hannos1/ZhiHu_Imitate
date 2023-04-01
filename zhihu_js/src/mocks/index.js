@@ -96,7 +96,30 @@ Mock.mock(/\/getuser/,'get',(e)=>{
 
 Mock.mock(/\/indexOfRecommend/,'get',(e)=>{
     const data = [];
-    for(let i = 0;i < 10;i++){
+    let item1 = {
+            id:0,
+            title:'一个190斤，身高172的男生怎么减肥？',
+            authorName:'哦哦哦ooo',
+            tag:'',
+            aritcle:'兄弟们，变瘦之后颜值立马提升500%，秒杀所有野草马仔！！太香了我减肥不需要撸铁撸到手冒火星子，更不用抗饿抗到眼冒金花，就抓住减肥降脂的命根使往下磨你就成功了什么双下巴、油腻肚、大粗腿所有的肥胖都于你无关，瘦下来之后才知道什么是颜值天堂！什么叫颜值即正义！！',
+            likes:Math.floor(Math.random()*501),
+            collection:Math.floor(Math.random()*501),
+            path:'/details/1',
+            pramas:'article0'
+    }
+    let item2 = {
+            id:1,
+            title:'2023年新手小白把虾皮跨境电商当副业/创业挣钱项目，还迟不迟？',
+            authorName:'是捏',
+            tag:'',
+            aritcle:'经常有朋友咨询我，现在做跨境电商的话还晚不晚？肯定告诉答案：肯定是不晚的，新手小白也能把它当副业挣钱~在想这个问的时，各位回溯一下自己过往经历，有没有参与过空白市场，红利期大多是属于圈子内的人，在生活中经常有人吐槽如果几年前我做哪个行业今天就好起来了，难道今天做这个行业的没有成功登顶的嘛？虾皮跨境电商是新手小白可创业、可副业的，课程资料+实操教程点下方卡片领取学习就行~',
+            likes:Math.floor(Math.random()*501),
+            collection:Math.floor(Math.random()*501),
+            path:'/details/1',
+            pramas:'article1'
+    }
+    data.push(item1,item2)
+    for(let i = 2;i < 10;i++){
         let item = {
             id:i,
             title:Random.csentence(5,30),

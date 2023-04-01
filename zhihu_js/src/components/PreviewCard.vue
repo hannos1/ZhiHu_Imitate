@@ -28,9 +28,13 @@
         lazy-render
         :close-on-click-overlay="false"
         teleport="body"
-        :style="{ height: '30%' }"
     >
-    yixie
+        <CloseCard 
+        :title="state.data.title" 
+        :authorName="state.data.authorName" 
+        :id="state.data.id"
+        @windowcontrol="windowcontrol"
+         />
     </van-popup>
     </div>
 </template>
@@ -39,6 +43,7 @@
 import { ref,reactive,onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import _ from "lodash"
+import CloseCard from './popup/CloseCard.vue';
 
 const router = useRouter()
 
@@ -75,6 +80,10 @@ function closeArticle(event){
     event.stopPropagation() // 阻止事件冒泡
     showBottom.value = true
     // console.log('///',event.target)
+}
+
+function windowcontrol(b){
+    showBottom.value = b
 }
 
 function cardTouch(){
@@ -147,7 +156,7 @@ async function cardEnd(){  // 短按会跳转
 
 onMounted(() => {
     state.data = props.data
-    console.log(state.data,props.data,'/////')
+    // console.log(state.data,props.data,'/////')
     state.pagePath = props.data.path
     state.pramas = props.data.pramas
     state.beforeWidth = card.value.clientWidth*0.6
@@ -239,4 +248,5 @@ onMounted(() => {
         border-radius 30%
     &.active::before
         transition all .6s
+    
 </style>
