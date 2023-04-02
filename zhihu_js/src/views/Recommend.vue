@@ -2,7 +2,7 @@
     <div class="swiperPage"  ref="pageSwiper">
         <div class="swiperContent">
             <div class="scrollBar_box">
-                <ScrollBar :pathList="state.pathList" :current="state.currentPath" @changeCurrent="changeCurrent" />
+                <ScrollBar :current="state.currentPath" @changeCurrent="changeCurrent" />
             </div>
             <MySkeleton class="MySkeleton" :isReady="state.isReady">
                 <template #skeleton_main>
@@ -24,7 +24,7 @@ import { ref,onMounted,reactive,onUpdated,watch,provide } from 'vue';
 import { useRouter,useRoute } from 'vue-router';
 import MySkeleton from '../components/MySkeleton.vue'
 import ScrollBar from '../components/ScrollBar.vue'
-import {getRecommend} from '../service/recommend'
+// import {getRecommend} from '../service/recommend'
 import BScroll from '@better-scroll/core';
 import _ from 'lodash'
 
@@ -41,27 +41,30 @@ const emits = defineEmits(['changSearch'])
 
 const state = reactive({
     isReady:false,
-    pathList:[],
     currentPath:'/home/tags',
-    pageNum:0
 })
 
-function changeCurrent(e){
+function changeCurrent(e){  // 该变当前二级导航路由
     state.currentPath = e
     router.push(e)
 }
 
+provide('changeCurrent', {  // 让子组件通过这个修改路径
+    changeCurrent
+})
 
 function bsScroll(pos){
     // console.log(pos.y)
-    if(pos.y > -20){
-        emits('changSearch',false)
-    }else{
-        emits('changSearch',true)
+    if(route.path === '/home/tags'){
+        if(pos.y > -20){
+            emits('changSearch',false)
+        }else{
+            emits('changSearch',true)
+        }
     }
 }
 
-function changeReady(b){
+function changeReady(b){  // 是否隐藏骨架屏
     state.isReady = b
 }
 
@@ -71,17 +74,18 @@ provide('isReady', {  // 依赖注入
 
 function pageBsScroll(bs){
     // console.log(bs,this.y)
-    if(this.y > -40 && this.y < 0){
-        bs.disable()
-    }else{
-        bs.enable()
+    if(route.path === '/home/tags'){
+        if(this.y > -40 && this.y < 0){
+            bs.disable()
+        }else{
+            bs.enable()
+        }   
     }
 }
 
 onMounted(async () => {
     router.push(state.currentPath) // 子路由首页
-    state.pathList = await getRecommend()
-    state.pageNum = state.pathList.length
+    // state.pathList = await getRecommend()
     state.currentPath = route.path
     emits('changSearch',false)
 
@@ -131,10 +135,12 @@ onMounted(async () => {
 .swiperPage
     // display flex
     // flex-direction column
+    --enable-scroll:17.466667rem
     bc()
     overflow hidden
     .swiperContent
         height 17.466667rem /* 655/37.5 */
+        // height var(--enable-scroll)
         .scrollBar_box
             width auto
             height 1.066667rem /* 40/37.5 */

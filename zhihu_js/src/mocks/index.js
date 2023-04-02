@@ -29,7 +29,7 @@ Mock.mock(/\/Ideas/,'get',()=>{
     return data;
 })
 
-Mock.mock(/\/recommend/,'get',()=>{
+Mock.mock(/\/recommend/,'get',()=>{  // 弃用
     return [
         {
             id:1,
@@ -134,4 +134,116 @@ Mock.mock(/\/indexOfRecommend/,'get',(e)=>{
         data.push(item)
     }
     return data;
+})
+
+
+
+Mock.mock(/\/getPathList/,'get',(e)=>{
+    let data = {
+        opened:[
+            {
+                id:0,
+                path:'/tags',
+                name:'全站'
+            },
+            {
+                id:1,
+                path:'/live',
+                name:'直播'
+            },
+            {
+                id:2,
+                path:'/highpraise',
+                name:'高赞'
+            },
+            {
+                id:3,
+                path:'/paternity',
+                name:'亲子'
+            },
+            {
+                id:4,
+                path:'/film',
+                name:'影视'
+            },
+            {
+                id:5,
+                path:'/game',
+                name:'游戏'
+            },
+            {
+                id:6,
+                path:'/workplace',
+                name:'职场'
+            },
+            {
+                id:7,
+                path:'/car',
+                name:'汽车'
+            },
+            {
+                id:8,
+                path:'/delicacies',
+                name:'美食'
+            },
+            {
+                id:9,
+                path:'/law',
+                name:'法律'
+            },
+            {
+                id:10,
+                path:'/anime',
+                name:'动漫'
+            }
+        ],
+        closed:[
+            {
+                id:11,
+                path:'/esports',
+                name:'电竞'
+            },
+            {
+                id:12,
+                path:'/healthy',
+                name:'健康'
+            },
+            {
+                id:13,
+                path:'/plantgrass',
+                name:'种草'
+            },
+            {
+                id:14,
+                path:'/psychology',
+                name:'心理'
+            },
+            {
+                id:15,
+                path:'/amusement',
+                name:'娱乐'
+            },
+            {
+                id:16,
+                path:'/knowledge',
+                name:'知识'
+            },
+            {
+                id:17,
+                path:'/brainhole',
+                name:'脑洞'
+            },
+            {
+                id:18,
+                path:'/school',
+                name:'校园'
+            },
+            {
+                id:19,
+                path:'/tale',
+                name:'故事'
+            }
+        ]
+    }
+    return data
 })

@@ -26,28 +26,7 @@ const routes = [
                 meta:{
                     index:2
                 }
-            },{
-                path:'/home/laws',
-                name:'laws',
-                component:() => import('../views/second/Laws.vue'),
-                meta:{
-                    index:3
-                }
-            },{
-                path:'/home/delicacies',
-                name:'delicacies',
-                component:() => import('../views/second/Delicacies.vue'),
-                meta:{
-                    index:4
-                }
-            },{
-                path:'/home/travel',
-                name:'travel',
-                component:() => import('../views/second/Travel.vue'),
-                meta:{
-                    index:5
-                }
-            }
+            },
         ]
     },
     {

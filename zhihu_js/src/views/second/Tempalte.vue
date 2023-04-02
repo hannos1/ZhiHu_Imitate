@@ -1,6 +1,6 @@
 <template>
     <div>
-        travel
+        模板页面
     </div>
 </template>
 
