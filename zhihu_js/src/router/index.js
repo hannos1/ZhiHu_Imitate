@@ -1,5 +1,6 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
 import Home from '../views/Home.vue'
+import children from './second'
 
 const routes = [
     {
@@ -11,23 +12,7 @@ const routes = [
         name:'home',
         component:Home,
         redirect:'/home/tags',
-        children:[
-            {
-                path:'/home/tags',
-                name:'tags',
-                component:() => import('../views/second/Index.vue'),
-                meta:{
-                    index:1
-                }
-            },{
-                path:'/home/live',
-                name:'live',
-                component:() => import('../views/second/Live.vue'),
-                meta:{
-                    index:2
-                }
-            },
-        ]
+        children:children
     },
     {
         path:'/concern',
