@@ -154,12 +154,4 @@ onMounted(() => {
                 background-size cover
                 width .64rem /* 24/37.5 */
                 height .64rem /* 24/37.5 */
-                
-
-
-                
-
-                
-
-
 </style>

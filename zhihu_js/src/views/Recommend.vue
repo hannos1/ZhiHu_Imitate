@@ -61,6 +61,12 @@ function bsScroll(pos){
         }else{
             emits('changSearch',true)
         }
+
+        if(pos.y<0){
+            pageBs.disable()
+        }else{
+            pageBs.enable()
+        }
     }
 }
 
