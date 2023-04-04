@@ -22,12 +22,13 @@
 <script setup>
 import { ref,onMounted,reactive,onUpdated,watch,provide } from 'vue';
 import { useRouter,useRoute } from 'vue-router';
-import MySkeleton from '../components/MySkeleton.vue'
-import ScrollBar from '../components/ScrollBar.vue'
-// import {getRecommend} from '../service/recommend'
+import MySkeleton from '../components/MySkeleton.vue';
+import ScrollBar from '../components/ScrollBar.vue';
 import BScroll from '@better-scroll/core';
-import _ from 'lodash'
+import _ from 'lodash';
+import ObserveDOM from '@better-scroll/observe-dom';
 
+BScroll.use(ObserveDOM)
 
 const swiper = ref(null) 
 const pageSwiper = ref(null)

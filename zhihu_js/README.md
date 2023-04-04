@@ -15,14 +15,3 @@
 
     如果click失效的话，检查下是不是touch事件导致的
     
-
-
-//     const sleep = (t) => {
-//     return new Promise((resolve,reject) => {
-//       setTimeout(() => {
-//         resolve(t)
-//       },t)
-//     })
-//   }
-  
-//   const data = await Promise.all([sleep(4000),sleep(2000),sleep(1000)]);

@@ -10,21 +10,31 @@
         <main>
             <div class="concern_container" ref="swiper">
                 <div class="concern_content">
-                    <div class="concern_getmore">
-                        <div class="getmore_item">
-                            <div class="getmore_item__img">
-                                <img src="../assets/img/test.png" alt="">
+                    <div class="concern_getmore" ref="getmoreswiper">
+                        <div class="getmore_content">
+                            <div class="getmore_item">
+                                <div class="getmore_item__img">
+                                    <img src="../assets/img/test.png" alt="">
+                                </div>
+                                <div class="getmore_item__title">
+                                    知乎日报
+                                </div>
                             </div>
-                            <div class="getmore_item__title">
-                                知乎日报
+                            <div class="getmore_item" v-if="state.concernList.length !== 0" v-for="item in state.concernList" :key="item.id">
+                                <div class="getmore_item__img">
+                                    <img src="../assets/img/test.png" alt="">
+                                </div>
+                                <div class="getmore_item__title">
+                                    {{ item.name }}
+                                </div>
                             </div>
-                        </div>
-                        <div class="getmore_item">
-                            <div class="getmore_item__img">
-                                <img src="../assets/img/加号.png" alt="">
-                            </div>
-                            <div class="getmore_item__title">
-                                关注更多
+                            <div class="getmore_item" @click="gotoPage('/concernmore')">
+                                <div class="getmore_item__img">
+                                    <img src="../assets/img/加号.png" alt="">
+                                </div>
+                                <div class="getmore_item__title">
+                                    关注更多
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -80,22 +90,32 @@ import { reactive,onMounted,ref,onUpdated } from 'vue';
 import MySwiper from '../components/MySwiper.vue';
 import BScroll from '@better-scroll/core';
 import Template from '../views/second/Template.vue';
-import Selected from '../views/second/Selected.vue'
-import _ from 'lodash'
+import Selected from '../views/second/Selected.vue';
+import _ from 'lodash';
+import { useRouter } from 'vue-router';
+import ObserveDOM from '@better-scroll/observe-dom';
+import {useConcernStore} from '../store/concerned';
+
+BScroll.use(ObserveDOM)
 
 const state = reactive({
   current:'/concern',
   currentindex:0,
   pageBsable:true,
-  bsable:false
+  bsable:false,
+  concernList:[]
 })
+
+const router = useRouter()
+
+const concernstore = useConcernStore()
 
 const swiper = ref(null)
 const navbar = ref(null)
-// const myswipers = ref(null)
-// let bss = null
+const getmoreswiper = ref(null)
 let pageBs = null
 let navbs = null
+let getmorebs = null
 
 
 function changeCurrentIndex(index){
@@ -108,21 +128,9 @@ function increaseIndex(params){
     navbs.scrollTo(-59*(2-state.currentindex),0,300)
 }
 
-// function pageBsScroll(bs,num){
-//     if(this.y > -num && this.y < 0){
-//         bs.disable()
-//     }else{
-//         bs.enable()
-//     }   
-// }
-
-// function bsScroll(bs,num){
-//     if(this.y < -num){
-//         bs.disable()
-//     }else{
-//         bs.enable()
-//     }   
-// }
+function gotoPage(params){
+    router.push(params)
+}
 
 function pageBsScroll(num){
     if(state.pageBsable){
@@ -145,40 +153,36 @@ function bsScroll(b){
 
 
 onMounted(() => {
+    state.concernList = concernstore.concernedList.list
+
     pageBs = new BScroll(swiper.value,{
         probeType:3,
         scrollX:false,
         scrollY:true,
-        observeDOM:true,
         click:true,
-        bounce:false,
-        eventPassthrough:'horizontal',
-        preventDefault: false
+        bounce:false
     })
 
-    // bss = new BScroll(myswipers.value,{
-    //     probeType:3,
-    //     scrollX:false,
-    //     scrollY:true,
-    //     observeDOM:true,
-    //     click:true,
-    //     bounce:false
-    // })
-
-    navbs = new BScroll(navbar.value,{
+    getmorebs = new BScroll(getmoreswiper.value,{
         probeType:3,
         scrollX:true,
         scrollY:false,
+        click:true,
         observeDOM:true,
+        bounce:false,
+    })
+
+    navbs = new BScroll(navbar.value,{
+        probeType:3,
+        observeDOM:true,
+        scrollX:true,
+        scrollY:false,
         click:true,
         startX:-118,
         bounce:false
     }) // 间隔59px
 
-    pageBs.on('scroll',_.throttle(pageBsScroll.bind(pageBs,112),30))
-    // pageBs.on('scroll',_.throttle(pageBsScroll.bind(pageBs,bs,114),30))
-    // bs.on('scroll',_.throttle(bsScroll.bind(bs,pageBs,5),30))
-    // bs.disable()  // 禁用
+    pageBs.on('scroll',_.throttle(pageBsScroll.bind(pageBs,114),30))
     navbs.disable()
 })
 
@@ -224,56 +228,65 @@ onMounted(() => {
     main
         .concern_container
             height 15.306667rem /* 574/37.5 */
-            // height var(--hight-container)
+            position relative
+            overflow hidden
+            z-index 997
             .concern_content
-                overflow hidden
-                position relative
                 height 18.346667rem /* 688/37.5 */
-                // height var(--hight-container)
                 .concern_getmore
                     width 100vw
                     height 2.773333rem /* 104/37.5 */
                     margin-bottom .266667rem /* 10/37.5 */
                     bc()
-                    overflow hidden
-                    display flex
-                    .getmore_item
+                    .getmore_content
+                        // display flex
                         height 2.773333rem /* 104/37.5 */
-                        width  1.6rem /* 60/37.5 */
-                        margin-left .373333rem /* 14/37.5 */
                         position relative
-                        .getmore_item__img
-                            width 1.493333rem /* 56/37.5 */
-                            height 1.493333rem /* 56/37.5 */
-                            border-radius 50%
-                            margin-left .053333rem /* 2/37.5 */
-                            margin-top .266667rem /* 10/37.5 */
-                            overflow hidden
-                            img
-                                width 100%
-                                height 100%
-                                background-size cover
-                        .getmore_item__title
-                            width 100%
-                            height .533333rem /* 20/37.5 */
-                            line-height .533333rem /* 20/37.5 */
-                            margin-top .213333rem /* 8/37.5 */
-                            text-align center
-                            font-size .32rem /* 12/37.5 */
-                            color var(--color-light)
-                        &:nth-child(2)
+                        display inline-block
+                        // flex-wrap nowrap
+                        white-space nowrap
+                        .getmore_item
+                            display inline-block
+                            height 2.773333rem /* 104/37.5 */
+                            width  1.6rem /* 60/37.5 */
+                            margin-left .373333rem /* 14/37.5 */
+                            position relative
                             .getmore_item__img
-                                border 1px dashed black
-                                position relative
+                                width 1.493333rem /* 56/37.5 */
+                                height 1.493333rem /* 56/37.5 */
+                                border-radius 50%
+                                margin-left .053333rem /* 2/37.5 */
+                                margin-top .266667rem /* 10/37.5 */
+                                overflow hidden
                                 img
-                                    width .533333rem /* 20/37.5 */
-                                    height .533333rem /* 20/37.5 */
-                                    position absolute
-                                    top 50%
-                                    left 50%
-                                    transform translate(-50%,-50%)
+                                    width 100%
+                                    height 100%
+                                    background-size cover
+                            .getmore_item__title
+                                width 100%
+                                height .533333rem /* 20/37.5 */
+                                line-height .533333rem /* 20/37.5 */
+                                margin-top .213333rem /* 8/37.5 */
+                                text-align center
+                                font-size .32rem /* 12/37.5 */
+                                color var(--color-light)
+                                text-overflow ellipsis
+                                overflow hidden
+                                word-break break-all
+                                white-space nowrap
+                            &:last-child
+                                margin-right .373333rem /* 14/37.5 */
+                                .getmore_item__img
+                                    border 1px dashed black
+                                    position relative
+                                    img
+                                        width .533333rem /* 20/37.5 */
+                                        height .533333rem /* 20/37.5 */
+                                        position absolute
+                                        top 50%
+                                        left 50%
+                                        transform translate(-50%,-50%)
                 .concern_swiper
-                    // margin-top .266667rem /* 10/37.5 */  
                     height 15.306667rem /* 574/37.5 */   
                     bc()
                     .concern_swipercontent

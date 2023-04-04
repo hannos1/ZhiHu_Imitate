@@ -68,6 +68,7 @@ function bsScroll(num){
         emits('bsScroll',false)
     }else{
         emits('bsScroll',true)
+        
     } 
 }
 
@@ -83,11 +84,6 @@ onMounted(() => {
 
     bs.on('scroll',bsScroll.bind(bs,0))
     bs.on('scrollEnd', () => {
-        // console.log('end')
-        emits('bsScroll',true)
-    })
-    bs.on('scrollCancel', () => {
-        // console.log('cancel')
         emits('bsScroll',true)
     })
     bs.disable()

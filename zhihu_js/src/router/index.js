@@ -78,6 +78,14 @@ const routes = [
             description:'登录页...'
         },
         component:() => import('../views/Login.vue')
+    },
+    {
+        path:'/concernmore',
+        name:'concernmore',
+        meta:{
+            description:'关注列表...'
+        },
+        component:() => import('../views/ConcernMore.vue')
     }
 ]
 
