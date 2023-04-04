@@ -37,7 +37,6 @@ onMounted(async () => {
         state.userenergy = userData.energy
         state.username = userData.username
     }
-    // console.log('data',userData)
 })
 
 </script>

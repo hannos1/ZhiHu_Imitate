@@ -8,7 +8,6 @@
             </div>
         </div>
         <div class="listSwitch">
-                <!-- <i class="el-icon-s-fold"></i> -->
                 <img src="../assets/img/列表.png" alt="" 
                 @touchstart="clickon"
                 @touchmove="stoptouch"
@@ -79,8 +78,6 @@ async function updateStore(opened,closed){  // 点击完成按钮就触发，通
 
 
 function changePath(path,id){
-    // console.log(path)
-    // state.current = path
     moveToCenter(id)
     emits('changeCurrent','/home' + path)
 }
@@ -101,7 +98,6 @@ function stoptouch(e){
 function closeTag(id){
     let items = state.opened.filter((i) => i.id !== id)
     let closeitem = state.opened.filter((i) => i.id === id)
-    // console.log(items,closeitem)
     state.opened = items
     state.closed = state.closed.concat(closeitem)
 }
@@ -146,7 +142,6 @@ function moveToCenter(id){ // 让点击的板块显示在合适位置
         }
     }
     suitX = -(index * 44) + 20
-    // console.log(bs.minScrollX,bs.maxScrollX)
     if(suitX > bs.minScrollX){
         suitX = bs.minScrollX
     }

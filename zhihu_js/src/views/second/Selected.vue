@@ -64,7 +64,6 @@ const emits = defineEmits(['bsScroll'])
 
 function bsScroll(num){
     if(bs.y < -num){
-        // console.log('disable')
         emits('bsScroll',false)
     }else{
         emits('bsScroll',true)

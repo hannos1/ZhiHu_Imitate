@@ -79,7 +79,6 @@ function gotoPage(path,pramas){
 function closeArticle(event){
     event.stopPropagation() // 阻止事件冒泡
     showBottom.value = true
-    // console.log('///',event.target)
 }
 
 function windowcontrol(b){
@@ -93,8 +92,6 @@ function cardTouch(){
     state.beforeHeight = card.value.clientHeight*1.5
     state.beforeOpacity = 0.2
     state.timer = setTimeout(async () => {  // 长按自动消除
-        // clearTimeout(state.timer)
-        // console.log('/////')
         state.beforeOpacity = 0.1
         await delay(200)
         state.beforeOpacity = 0
@@ -120,7 +117,6 @@ function stopPro(event){
 }
 
 async function cardMove(){ // 如果移动了就是要翻页
-    // console.log('move')
     clearTimeout(state.timer)  // 清除之前的timer
     state.end = true  // 翻页不用跳转
     state.timer = setTimeout(async () => {
@@ -138,8 +134,6 @@ async function cardMove(){ // 如果移动了就是要翻页
 
 
 async function cardEnd(){  // 短按会跳转
-    // console.log('end',state.end)
-    // clearTimeout(state.timer)
     if(!state.end){
         clearTimeout(state.timer)
         state.beforeOpacity = 0.1
@@ -156,7 +150,6 @@ async function cardEnd(){  // 短按会跳转
 
 onMounted(() => {
     state.data = props.data
-    // console.log(state.data,props.data,'/////')
     state.pagePath = props.data.path
     state.pramas = props.data.pramas
     state.beforeWidth = card.value.clientWidth*0.6

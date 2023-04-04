@@ -55,7 +55,6 @@ provide('changeCurrent', {  // 让子组件通过这个修改路径
 })
 
 function bsScroll(pos){
-    // console.log(pos.y)
     if(route.path === '/home/tags'){
         if(pos.y > -20){
             emits('changSearch',false)
@@ -80,7 +79,6 @@ provide('isReady', {  // 依赖注入
 })
 
 function pageBsScroll(bs){
-    // console.log(bs,this.y)
     if(route.path === '/home/tags'){
         if(this.y > -40 && this.y < 0){
             bs.disable()
@@ -92,7 +90,6 @@ function pageBsScroll(bs){
 
 onMounted(async () => {
     router.push(state.currentPath) // 子路由首页
-    // state.pathList = await getRecommend()
     state.currentPath = route.path
     emits('changSearch',false)
 
@@ -140,21 +137,17 @@ onMounted(async () => {
 <style lang="stylus" scoped>
 @import '../assets/styl/mixin.styl';
 .swiperPage
-    // display flex
-    // flex-direction column
     --enable-scroll:17.466667rem
     bc()
     overflow hidden
     .swiperContent
         height 17.466667rem /* 655/37.5 */
-        // height var(--enable-scroll)
         .scrollBar_box
             width auto
             height 1.066667rem /* 40/37.5 */
             position relative
         .MySkeleton
             width 100vw
-            flex 1
             .page_container
                 width 100%
                 height 100%

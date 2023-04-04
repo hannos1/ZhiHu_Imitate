@@ -68,7 +68,6 @@ const swiperMove = (event) => {  // 拖动时触发的函数
     let moveX = event.touches[0].screenX
     let moveY = event.touches[0].screenY
     let tan =  Math.abs(moveY*100000 - state.touchY*100000)/Math.abs(moveX*100000 - state.touchX*100000)
-    // console.log(tan,Math.tan(Math.PI / 2.3))
 
     if(Math.tan(Math.PI / 4) < tan){ // 说明角度大于45度，不让它垂直移动
         if(!state.ifHorizontal){

@@ -119,12 +119,10 @@ async function sendForm(e){
         }
     }
     closeToast()
-    // console.log('returndata',returnData)
     if(returnData.code === 200){
         await userStore.userLogin(returnData.token)
         router.go(-1)
     }else if(returnData.code === 300){
-        // router.push('/login')
         changeType('login')
     }else{
         console.log('登录失败...')

@@ -331,3 +331,20 @@ Mock.mock(/\/ConcernList/,'get',(e)=>{
     }
   ]
 })
+
+
+
+Mock.mock(/\/Hots/,'get',(e)=>{
+    let model = e.url.charAt(e.url.length - 1)
+    let data = []
+    let start = model * 15
+    for(let i = start;i < start + 15;i++){
+        let item = {
+            id:i,
+            aritcle:Random.csentence(20,60),
+            hotnum:Math.floor(Math.random()*500 + 500)
+        }
+        data.push(item)
+    }
+    return data;
+})

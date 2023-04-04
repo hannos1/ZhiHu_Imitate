@@ -80,7 +80,6 @@ function goto(path,pramas){
 
 onUpdated(() => {
   state.windowWidth = document.documentElement.clientWidth / 10
-//   console.log(state.windowWidth)
   if(props.waterData !== state.allList){
         const data = props.waterData;
         let leftTempGoods = [],
@@ -99,10 +98,7 @@ onUpdated(() => {
             }
             heights[minHeightIndex] += data[i].height + titleHeight + avatarHeight + tagHeight + 50
         }
-        // console.log(leftTempGoods,rightTempGoods)
         state.heights = heights
-        //   state.leftList = leftTempGoods;
-        //   state.rightList = rightTempGoods;
         state.maxheight = Math.max(...state.heights) + 300  // 增加点误差容错
         state.allList = props.waterData
         setTimeout(() => {

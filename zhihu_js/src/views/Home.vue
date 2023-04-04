@@ -33,7 +33,6 @@
             >
                 <template #listItem>
                     <Idea />
-                    <!-- <Recommend @changeControl="changeControl" /> -->
                     <Recommend @changSearch="changSearch" />
                     <Hot />
                 </template>
@@ -62,7 +61,6 @@ const state = reactive({
     pageindex:1,
     current:'/home',
     showSearch:false
-    // ifControl:true,
 })
 
 const increaseIndex = (params) => {

@@ -1,7 +1,6 @@
 <template>
     <div class="navBar_container">
         <div class="navBar_basictag" @click="backPage">
-            <!-- <i class="el-icon-arrow-left"></i> -->
             <img src="../assets/img/返回.png" alt="">
         </div>
         <div class="navBar_main">

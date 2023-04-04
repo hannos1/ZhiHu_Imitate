@@ -41,12 +41,10 @@ function gotoPage(path,pramas){
 
 async function removeById(id){  // 这里做数据删除
     state.closeId = id
-    // console.log(state.closeId)
     await setTimeout(() => {
         state.pageData = state.pageData.filter((item) => item.id !== id)
         state.closeId = -1
     },600)
-    // console.log(state.pageData,id)
 }
 
 provide('closeCard', {
@@ -55,7 +53,6 @@ provide('closeCard', {
 
 onMounted(async () => {
     state.pageData = await getRecommendIndex()
-    // console.log(state.pageData,'///')
     await changeReady(true)
 })
 
