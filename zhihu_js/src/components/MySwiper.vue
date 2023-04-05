@@ -129,7 +129,7 @@ onMounted(() => {
 })
 
 
-onUpdated(() => { // 当拖动时组件索引发生改变时触发
+onUpdated(() => { // 父组件的索引值该变时，修改子组件的值
     if(state.propsIndex !== props.current && state.isTouch === false){
         state.isEnd = false
         state.basicX = -props.current*state.windowWidth

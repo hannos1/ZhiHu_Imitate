@@ -5,7 +5,6 @@ export const useUserStore = defineStore('user',() => {
     let islogin = ref(false)
     function userLogin(data){
         localStorage.setItem('userToken',JSON.stringify(data))
-        // islogin.value = true
         updateLogin()
     }
 
@@ -20,7 +19,6 @@ export const useUserStore = defineStore('user',() => {
 
     function exitLogin(){
         localStorage.removeItem('userToken')
-        // islogin.value = false
         updateLogin()
     }
     return {

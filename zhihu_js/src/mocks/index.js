@@ -348,3 +348,19 @@ Mock.mock(/\/Hots/,'get',(e)=>{
     }
     return data;
 })
+
+Mock.mock(/\/Hotwords/,'get',(e)=>{
+    let data = [{
+        content:'家长打孩子',
+        ishot:true
+    }]
+    for(let i = 0;i < 15;i++){
+        let ishotvalue = Math.random() > 0.9
+        let item = {
+            content:Random.csentence(5,18),
+            ishot:ishotvalue
+        }
+        data.push(item)
+    }
+    return data;
+})

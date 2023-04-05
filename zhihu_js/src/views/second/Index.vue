@@ -5,8 +5,8 @@
         </div>
         <div class="icon_search">
             <div class="search_box">
-                <div class="placeHolder" @click="gotoPage('/search','placeholder')">一些热词jfksfjksdfsdfsdfsdfsdfsdfsdfsdfdjfkdjfkdfj</div>
-                <div class="button_label" @click="gotoPage('/searchDetails','一些热词')">搜索</div>
+                <div class="placeHolder" @click="gotoPage('/search',`placeholder=${state.hotword}`)">{{ state.hotword }}</div>
+                <div class="button_label" @click="gotoPage('/searchDetails',`placeholder=${state.hotword}`)">搜索</div>
             </div>
         </div>
     </header>
@@ -33,6 +33,7 @@ const state = reactive({
     pageData:[],
     isready:false,
     closeId:-1,
+    hotword:'高校优化学科布点'
 })
 
 function gotoPage(path,pramas){

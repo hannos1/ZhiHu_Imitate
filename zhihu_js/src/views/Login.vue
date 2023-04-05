@@ -39,13 +39,14 @@
 
 <script setup>
 import { reactive } from 'vue';
-import {useRouter} from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
 import {login,register} from '../service/login'
 import { showToast,closeToast } from 'vant';
 import md5 from 'js-md5'
 import {useUserStore} from '../store/user'
 
 const router = useRouter()
+const route = useRoute()
 const userStore = useUserStore()
 
 const state = reactive({
@@ -75,10 +76,10 @@ function registerForm(){
 }
 
 function verify(){
-    if(state.account === ''){
+    if(state.account.trim() === ''){
         return false
     }
-    if(state.password === ''){
+    if(state.password.trim() === ''){
         return false
     }
     if(state.type === 'login'){
@@ -86,7 +87,7 @@ function verify(){
             return false
         }
     }else{
-        if(state.repassword === ''){
+        if(state.repassword.trim() === ''){
             return false
         }
         if(state.password !== state.repassword){
@@ -119,9 +120,10 @@ async function sendForm(e){
         }
     }
     closeToast()
-    if(returnData.code === 200){
+    if(returnData.code === 200){ // 登录成功
         await userStore.userLogin(returnData.token)
-        router.go(-1)
+        const redirect_url = route.query.redirect_url || '/'
+        router.push(redirect_url)
     }else if(returnData.code === 300){
         changeType('login')
     }else{
