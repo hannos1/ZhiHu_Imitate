@@ -18,7 +18,7 @@
         </header>
         <main>
             <div class="search_container" ref="swiper">
-                <div class="search_content" v-if="!state.isSEO">
+                <div class="search_content" v-if="state.content.length === 0">
                     <div class="search_history" v-if="state.historyList.word && state.historyList.word.length > 0">
                         <div class="search_nav">
                             <div class="nav_icon">
@@ -54,7 +54,16 @@
                 </div>
                 <div class="seolist" v-else>
                     <ul>
-                        <li></li>
+                        <li v-for="item in state.searchwords" :key="item.id">
+                            <div class="seoitem" @click="search(item.content)">
+                                <div class="searchicon">
+                                    <img src="../assets/img/搜索.png" alt="">
+                                </div>
+                                <div class="searchlabel">
+                                    {{ item.content }}
+                                </div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -67,36 +76,43 @@
 
 <script setup>
 import SecondNavBar from '../components/SecondNavBar.vue';
-import { reactive,onMounted,ref,computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { reactive,onMounted,ref,computed,onUnmounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import {useHistorySearchStore} from '../store/historysearch';
 import ObserveDOM from '@better-scroll/observe-dom';
 import BScroll from '@better-scroll/core';
-import {getHotwords} from '../service/search';
+import {getHotwords,getSearchwords} from '../service/search';
+import _ from 'lodash'
 
 BScroll.use(ObserveDOM)
 
 const state = reactive({
     placeholder:'',
     content:'',
-    isSEO:false,
     historyList:{},
     guessList:[],
-    delmodel:false, // ▴▾
+    searchwords:[],
+    delmodel:false,
     hov:'▾',
     ishov:computed(() => {
         return (state.historyList.word && state.historyList.remainder && state.historyList.word.length > 4 || state.historyList.remainder.length > 0)
-    })
+    }) // ▴▾
 })
 
 const swiper = ref(null)
 let bs = null
-
 const historySearchStore = useHistorySearchStore()
 
 const route = useRoute()
+const router = useRouter()
+
+const seoWords =  _.debounce(async () => {
+       state.searchwords = await getSearchwords(state.content)
+    },300)
 
 function keyDownEvent(e){
+    seoWords()
+
     if(e.keyCode === 13){ // 13回车
         search(state.content)
     }
@@ -110,10 +126,12 @@ function search(str){
         item.content = state.placeholder
     }
     historySearchStore.setWords(item)
+    router.push('/searchDetails?content=' + str)
 }
 
 function deleteInput(){
     state.content = ''
+    state.searchwords = []
 }
 
 function removeHistory(){
@@ -123,6 +141,13 @@ function removeHistory(){
 
 function changeDelmodel(){
     state.delmodel = !state.delmodel
+    if(state.delmodel){
+        state.hov = '▴'
+        historySearchStore.setInWords()
+    }else{
+        state.hov = '▾'
+        historySearchStore.setInRemainder()
+    }
 }
 
 function removeByContent(str){
@@ -130,7 +155,6 @@ function removeByContent(str){
 }
 
 function hiddenOrVisibility(){
-    console.log('/////')
     if(state.hov === '▾'){
         state.hov = '▴'
         historySearchStore.setInWords()
@@ -145,10 +169,6 @@ onMounted(async () => {
     state.historyList = historySearchStore.words
     state.guessList = await getHotwords()
 
-    if(historySearchStore.words.length > historySearchStore.maxlenght){
-        
-    }
-
     bs = new BScroll(swiper.value,{
         probeType:3,
         scrollX:false,
@@ -157,6 +177,10 @@ onMounted(async () => {
         observeDOM:true,
         bounce:false
     })
+})
+
+onUnmounted(() => {
+    historySearchStore.setInRemainder() // 销毁的话收回来
 })
 
 </script>
@@ -343,4 +367,29 @@ onMounted(async () => {
                                     color white
             .seolist
                 width 100vw
+                ul
+                    li
+                        .seoitem
+                            width 100vw
+                            height .96rem /* 36/37.5 */
+                            display flex
+                            overflow hidden
+                            .searchicon
+                                width 1.066667rem /* 40/37.5 */
+                                height .96rem /* 36/37.5 */
+                                img
+                                    width .533333rem /* 20/37.5 */
+                                    height .533333rem /* 20/37.5 */
+                                    margin .213333rem /* 8/37.5 */ .266667rem /* 10/37.5 */
+                            .searchlabel
+                                height .96rem /* 36/37.5 */
+                                line-height .96rem /* 36/37.5 */
+                                flex 1
+                                font-size .426667rem /* 16/37.5 */
+                                padding-left .213333rem /* 8/37.5 */
+                                max-width 7.466667rem /* 280/37.5 */
+                                text-overflow ellipsis
+                                overflow hidden
+                                word-break break-all
+                                white-space nowrap
 </style>

@@ -18,7 +18,9 @@
             <div class="article_close" 
             @touchstart="stopPro" 
             @touchmove="stopPro" 
-            @touchend="closeArticle">x</div>
+            @touchend="closeArticle"
+            v-if="props.isclose"
+            >x</div>
         </div>
     <van-popup
         v-model:show="showBottom"
@@ -51,6 +53,10 @@ const props = defineProps({
     data:{
         type:Object,
         default:{}
+    },
+    isclose:{  // 是否显示关闭按钮
+        type:Boolean,
+        default:true
     }
 })
 
@@ -143,7 +149,7 @@ async function cardEnd(){  // 短按会跳转
         state.isTouch = false
         state.beforeWidth = card.value.clientWidth*0.6
         state.beforeHeight = card.value.clientHeight*0.6
-        gotoPage(state.pagePath,'一些奋进')
+        gotoPage(state.pagePath,'url参数')
     }
     state.end = false
 }

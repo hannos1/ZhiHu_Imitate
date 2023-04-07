@@ -6,7 +6,7 @@
         <div class="icon_search">
             <div class="search_box">
                 <div class="placeHolder" @click="gotoPage('/search',`placeholder=${state.hotword}`)">{{ state.hotword }}</div>
-                <div class="button_label" @click="gotoPage('/searchDetails',`placeholder=${state.hotword}`)">搜索</div>
+                <div class="button_label" @click="gotoPage('/searchDetails',`content=${state.hotword}`)">搜索</div>
             </div>
         </div>
     </header>

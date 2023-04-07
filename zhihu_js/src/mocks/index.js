@@ -251,85 +251,19 @@ Mock.mock(/\/getPathList/,'get',(e)=>{
 
 
 Mock.mock(/\/ConcernList/,'get',(e)=>{
-    return [{
-        id:1,
-        name:Random.name(),
-        section:Random.csentence(3,5),
-        answer:Math.floor(Math.random()*50 + 50),
-        concern:Math.floor(Math.random()*500 + 500),
-        isConcerned:false
-    },{
-        id:2,
-        name:Random.name(),
-        section:Random.csentence(3,5),
-        answer:Math.floor(Math.random()*50 + 50),
-        concern:Math.floor(Math.random()*500 + 500),
-        isConcerned:false
-    },{
-        id:3,
-        name:Random.name(),
-        section:Random.csentence(3,5),
-        answer:Math.floor(Math.random()*50 + 50),
-        concern:Math.floor(Math.random()*500 + 500),
-        isConcerned:false
-    },{
-        id:4,
-        name:Random.name(),
-        section:Random.csentence(3,5),
-        answer:Math.floor(Math.random()*50 + 50),
-        concern:Math.floor(Math.random()*500 + 500),
-        isConcerned:false
-    },{
-        id:5,
-        name:Random.name(),
-        section:Random.csentence(3,5),
-        answer:Math.floor(Math.random()*50 + 50),
-        concern:Math.floor(Math.random()*500 + 500),
-        isConcerned:false
-    },{
-        id:6,
-        name:Random.name(),
-        section:Random.csentence(3,5),
-        answer:Math.floor(Math.random()*50 + 50),
-        concern:Math.floor(Math.random()*500 + 500),
-        isConcerned:false
-    },{
-        id:7,
-        name:Random.name(),
-        section:Random.csentence(3,5),
-        answer:Math.floor(Math.random()*50 + 50),
-        concern:Math.floor(Math.random()*500 + 500),
-        isConcerned:false
-    },{
-        id:8,
-        name:Random.name(),
-        section:Random.csentence(3,5),
-        answer:Math.floor(Math.random()*50 + 50),
-        concern:Math.floor(Math.random()*500 + 500),
-        isConcerned:false
-    },{
-        id:9,
-        name:Random.name(),
-        section:Random.csentence(3,5),
-        answer:Math.floor(Math.random()*50 + 50),
-        concern:Math.floor(Math.random()*500 + 500),
-        isConcerned:false
-    },{
-        id:10,
-        name:Random.name(),
-        section:Random.csentence(3,5),
-        answer:Math.floor(Math.random()*50 + 50),
-        concern:Math.floor(Math.random()*500 + 500),
-        isConcerned:false
-    },{
-        id:11,
-        name:Random.name(),
-        section:Random.csentence(3,5),
-        answer:Math.floor(Math.random()*50 + 50),
-        concern:Math.floor(Math.random()*500 + 500),
-        isConcerned:false
+    let data = []
+    for(let i = 1;i < 12;i++){
+        let item = {
+            id:i,
+            name:Random.name(),
+            section:Random.csentence(3,5),
+            answer:Math.floor(Math.random()*50 + 50),
+            concern:Math.floor(Math.random()*500 + 500),
+            isConcerned:false
+        }
+        data.push(item)
     }
-  ]
+    return data;
 })
 
 
@@ -363,4 +297,26 @@ Mock.mock(/\/Hotwords/,'get',(e)=>{
         data.push(item)
     }
     return data;
+})
+
+
+Mock.mock(/\/Searchwords/,'get',(e)=>{
+    let index = e.url.indexOf('?words=')
+    let params = e.url.substring(index + 7)
+    if(/家长.*/.test(params)){
+        let data = [{
+            id:0,
+            content:'家长对孩子的评价',
+        }]
+        for(let i = 1;i < 10;i++){
+            let item = {
+                id:i,
+                content:params + Random.csentence(3,6)
+            }
+            data.push(item)
+        }
+        return data;
+    }else{
+        return []
+    }
 })

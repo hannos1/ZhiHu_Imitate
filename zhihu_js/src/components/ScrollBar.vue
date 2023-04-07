@@ -138,7 +138,6 @@ function moveToCenter(id){ // 让点击的板块显示在合适位置
     for(let i = 0;i < state.opened.length;i++){
         if(state.opened[i].id === id){
             index = i;
-            // console.log(i,'////')
         }
     }
     suitX = -(index * 44) + 20
@@ -157,7 +156,6 @@ provide('moveToCenter',{  // 依赖注入
 
 onUpdated(() => {
     if(state.current !== props.current){
-        // console.log('///')
         state.current = props.current
     }
 })

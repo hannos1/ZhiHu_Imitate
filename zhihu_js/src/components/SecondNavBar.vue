@@ -20,13 +20,22 @@ const props = defineProps({
     ifShowMore:{
         type:Boolean,
         default:true
+    },
+    backPath:{
+        type:String,
+        default:''
     }
 })
 
 const router = useRouter()
 
 function backPage(){
-    router.go(-1)
+    if(props.backPath !== ''){
+        router.push(props.backPath)
+    }else{
+        router.go(-1)
+    }
+
 }
 
 function getMore(){
