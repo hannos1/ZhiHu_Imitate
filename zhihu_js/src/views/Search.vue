@@ -1,12 +1,12 @@
 <template>
     <div class="page_search">
         <header>
-            <SecondNavBar :if-show-more="false">
+            <SecondNavBar :if-show-more="false" :back-path="'/home/tags'">
                 <template #navBar_main>
                     <div class="navBar_main__container">
                         <div class="navBar_main__input">
                             <img src="../assets/img/搜索.png" alt="">
-                            <input v-model="state.content" :placeholder="state.placeholder" type="text" @keydown="keyDownEvent">
+                            <input ref="input" v-model="state.content" :placeholder="state.placeholder" type="text" @keydown="keyDownEvent">
                             <div class="input_del">
                                 <img src="../assets/img/叉号圆形.png" alt="" @click="deleteInput" v-if="state.content.length > 0" >
                             </div>
@@ -18,7 +18,7 @@
         </header>
         <main>
             <div class="search_container" ref="swiper">
-                <div class="search_content" v-if="state.content.length === 0">
+                <div class="search_content" v-bind:hidden="!(state.content.length === 0)">
                     <div class="search_history" v-if="state.historyList.word && state.historyList.word.length > 0">
                         <div class="search_nav">
                             <div class="nav_icon">
@@ -52,7 +52,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="seolist" v-else>
+                <div class="seolist" v-if="!(state.content.length === 0)">
                     <ul>
                         <li v-for="item in state.searchwords" :key="item.id">
                             <div class="seoitem" @click="search(item.content)">
@@ -76,7 +76,7 @@
 
 <script setup>
 import SecondNavBar from '../components/SecondNavBar.vue';
-import { reactive,onMounted,ref,computed,onUnmounted } from 'vue';
+import { reactive,onMounted,ref,computed,onUnmounted,onUpdated } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import {useHistorySearchStore} from '../store/historysearch';
 import ObserveDOM from '@better-scroll/observe-dom';
@@ -88,17 +88,18 @@ BScroll.use(ObserveDOM)
 
 const state = reactive({
     placeholder:'',
+    inputfocu:false,
     content:'',
     historyList:{},
     guessList:[],
     searchwords:[],
-    delmodel:false,
     hov:'▾',
     ishov:computed(() => {
         return (state.historyList.word && state.historyList.remainder && state.historyList.word.length > 4 || state.historyList.remainder.length > 0)
     }) // ▴▾
 })
 
+const input = ref(null)
 const swiper = ref(null)
 let bs = null
 const historySearchStore = useHistorySearchStore()
@@ -126,7 +127,7 @@ function search(str){
         item.content = state.placeholder
     }
     historySearchStore.setWords(item)
-    router.push('/searchDetails?content=' + str)
+    router.push('/searchDetails?content=' + item.content)
 }
 
 function deleteInput(){
@@ -166,8 +167,13 @@ function hiddenOrVisibility(){
 
 onMounted(async () => {
     state.placeholder = route.query.placeholder || ''
+    state.content = route.query.content || ''
     state.historyList = historySearchStore.words
     state.guessList = await getHotwords()
+
+    if(state.content.length > 0){
+        input.value.focus()
+    }
 
     bs = new BScroll(swiper.value,{
         probeType:3,
@@ -179,7 +185,14 @@ onMounted(async () => {
     })
 })
 
+onUpdated(() => {
+    if(bs){
+        bs.refresh()
+    }
+})
+
 onUnmounted(() => {
+    bs.destroy()
     historySearchStore.setInRemainder() // 销毁的话收回来
 })
 

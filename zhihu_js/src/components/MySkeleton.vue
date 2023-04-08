@@ -48,32 +48,35 @@ const props = defineProps({
 })
 
 const state = reactive({
-    // scrollColor:'#d6d6d6'
     scrollColor:100,
-    skeletonControl:null,
+    skeletonControl:null
 })
 
 onMounted(() => {
     state.skeletonControl = setInterval(() => {  // 给骨架屏加点动态效果 记得清除这个定时器
-        // if(state.scrollColor === '#d6d6d6'){
-        //     state.scrollColor = '#fff'
-        // }else{
-        //     state.scrollColor = '#d6d6d6'
-        // }
         if(state.scrollColor === 100){
             state.scrollColor = 0
         }else{
             state.scrollColor = 100
         }
-    },700)
-    // setTimeout(() => {
-    //     clearInterval(skeletonControl)
-    // },5000)
+    },500)
 })
 
 onUpdated(() => {
     if(props.isReady === true){
         clearInterval(state.skeletonControl)
+        state.scrollColor = 100
+    }
+    
+    if(props.isReady === false){ // 重新设置这个计时器
+        clearInterval(state.skeletonControl)
+        state.skeletonControl = setInterval(() => {
+            if(state.scrollColor === 100){
+                state.scrollColor = 0
+            }else{
+                state.scrollColor = 100
+            }
+        },500)
     }
 })
 
@@ -86,31 +89,25 @@ onUpdated(() => {
     width 100vw
     height calc(100vh - 3.786667rem)
     .floor1
-    // ul
         width 100%
         height 100%
         display flex
         flex-direction column
         list-style none
         .floor2
-        // li
             flex 1
             margin-bottom .266667rem /* 10/37.5 */
             .floor3
-            // ul
                 height 80%
                 display flex
                 flex-direction column
                 list-style none
                 .floor4
-                // li
                     flex 1
                     position relative
                     &:before
                         content ''
                         position absolute
-                        // background-color var(--scrollColor)
-                        // transition background-color 0.5s
                         background-color #d6d6d6
                         opacity var(--scrollColor)
                         transition opacity 0.7s

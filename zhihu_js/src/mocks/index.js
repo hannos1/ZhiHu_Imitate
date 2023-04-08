@@ -320,3 +320,46 @@ Mock.mock(/\/Searchwords/,'get',(e)=>{
         return []
     }
 })
+
+
+Mock.mock(/\/searchdetail/,'get',(e)=>{
+    return [
+        {
+            id:0,
+            value:'综合',
+            pramas:'zonghe'
+        },{
+            id:1,
+            value:'实时',
+            pramas:'shishi'
+        },{
+            id:2,
+            value:'用户',
+            pramas:'user'
+        },{
+            id:3,
+            value:'视频',
+            pramas:'video'
+        },{
+            id:4,
+            value:'学术',
+            pramas:'xueshu'
+        },{
+            id:5,
+            value:'盐选内容',
+            pramas:'yanxuan'
+        },{
+            id:6,
+            value:'电子书',
+            pramas:'ebooks'
+        },{
+            id:7,
+            value:'话题',
+            pramas:'huati'
+        },{
+            id:8,
+            value:'专栏',
+            pramas:'zhuanlan'
+        }
+    ]
+})

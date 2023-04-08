@@ -20,7 +20,7 @@
                     </div>
                     <div class="item_button">
                         <div class="concern_btn" @click="clickConcern(item)" :class="{nagetive:item.isConcerned}">
-                            <div class="concern_btn__label" v-if="!item.isConcerned">+关注{{ item.id }}</div>
+                            <div class="concern_btn__label" v-if="!item.isConcerned">+关注</div>
                             <div class="concern_btn__label" v-else>已关注</div>
                         </div>
                     </div>
