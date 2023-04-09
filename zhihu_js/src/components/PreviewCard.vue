@@ -149,7 +149,7 @@ async function cardEnd(){  // 短按会跳转
         state.isTouch = false
         state.beforeWidth = card.value.clientWidth*0.6
         state.beforeHeight = card.value.clientHeight*0.6
-        gotoPage(state.pagePath,'url参数')
+        gotoPage(state.pagePath,'title=' + (props.data?props.data.title:''))
     }
     state.end = false
 }
