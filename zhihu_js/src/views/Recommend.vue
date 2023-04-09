@@ -27,8 +27,11 @@ import ScrollBar from '../components/ScrollBar.vue';
 import BScroll from '@better-scroll/core';
 import _ from 'lodash';
 import ObserveDOM from '@better-scroll/observe-dom';
+import Pullup from '@better-scroll/pull-up';
+import {useHomeIndexStore} from '../store/homeindex'
 
 BScroll.use(ObserveDOM)
+BScroll.use(Pullup)
 
 const swiper = ref(null) 
 const pageSwiper = ref(null)
@@ -37,6 +40,7 @@ let bs = null
 
 const router = useRouter()
 const route = useRoute()
+const dataStore = useHomeIndexStore()
 
 const emits = defineEmits(['changSearch'])
 
@@ -88,6 +92,27 @@ function pageBsScroll(bs){
     }
 }
 
+async function pullingUpHandler(){
+    if(bs){
+        await dataStore.updateData()
+        bs.finishPullUp()
+        bs.refresh()
+    }
+}
+
+async function backtop(){
+    if(bs&&pageBs){
+        bs.enable()
+        pageBs.enable()
+        pageBs.scrollTo(0,0,300)
+        bs.scrollTo(0, 0, 300)
+        bs.refresh()
+        pageBs.refresh()
+    }
+}
+
+defineExpose({backtop})  // 向父组件暴露这个接口值
+
 onMounted(async () => {
     router.push(state.currentPath) // 子路由首页
     state.currentPath = route.path
@@ -109,11 +134,13 @@ onMounted(async () => {
         observeDOM:true,
         click:true,
         bounceTime:500,
+        pullUpLoad:true
     })
 
     pageBs.on('scroll',_.throttle(pageBsScroll.bind(pageBs,bs),30))
 
     bs.on('scroll',_.throttle(bsScroll,30))
+    bs.on('pullingUp',pullingUpHandler)
 
     watch(route,() => {
         state.currentPath = route.path
@@ -151,7 +178,7 @@ onMounted(async () => {
             .page_container
                 width 100%
                 height 100%
-                background-color #f6f5fb
+                background-color var(--color-interval)
                 overflow hidden
                 .page_swiper
                     width 100%
@@ -160,6 +187,5 @@ onMounted(async () => {
                     .page_content
                         width 100%
                         height auto
-
 
 </style>

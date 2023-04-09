@@ -97,7 +97,7 @@ Mock.mock(/\/getuser/,'get',(e)=>{
 Mock.mock(/\/indexOfRecommend/,'get',(e)=>{
     const data = [];
     let item1 = {
-            id:0,
+            id:Math.floor(Math.random()*2000*(new Date().getTime())%10000),
             title:'一个190斤，身高172的男生怎么减肥？',
             authorName:'哦哦哦ooo',
             tag:'',
@@ -108,7 +108,7 @@ Mock.mock(/\/indexOfRecommend/,'get',(e)=>{
             pramas:'article0'
     }
     let item2 = {
-            id:1,
+            id:Math.floor(Math.random()*2000*(new Date().getTime())%10000),
             title:'2023年新手小白把虾皮跨境电商当副业/创业挣钱项目，还迟不迟？',
             authorName:'是捏',
             tag:'',
@@ -121,7 +121,7 @@ Mock.mock(/\/indexOfRecommend/,'get',(e)=>{
     data.push(item1,item2)
     for(let i = 2;i < 10;i++){
         let item = {
-            id:i,
+            id:Math.floor(Math.random()*2000*(new Date().getTime())%10000),
             title:Random.csentence(5,30),
             authorName:Random.name(),
             tag:Random.csentence(3,5),

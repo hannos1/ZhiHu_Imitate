@@ -192,7 +192,8 @@ onMounted(() => {
 @import '../assets/styl/mixin.styl';
 .page_container
     --hight-container:15.306667rem
-    background-color #f6f6f6
+    // background-color #f6f6f6
+    background-color var(--color-interval)
     height calc(100vh - 1.44rem /* 54/37.5 */)
     width 100vw
     position fixed
@@ -277,7 +278,7 @@ onMounted(() => {
                             &:last-child
                                 margin-right .373333rem /* 14/37.5 */
                                 .getmore_item__img
-                                    border 1px dashed black
+                                    border 1px dashed var(--color-light)
                                     position relative
                                     img
                                         width .533333rem /* 20/37.5 */

@@ -15,16 +15,22 @@
             <div v-for="item in state.pageData" :key="item.id" :class="{negative:state.closeId === item.id}">
                 <PreviewCard :data="item"></PreviewCard>
             </div>
+            <div v-for="item in state.loaddata.data" :key="item.id" :class="{negative:state.closeId === item.id}">
+                <PreviewCard :data="item"></PreviewCard>
+            </div>
         </div>
     </main>
-    <footer></footer>
+    <footer>
+        <div class="loading">loading...</div>
+    </footer>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router';
 import PreviewCard from '../../components/PreviewCard.vue';
-import {onMounted,inject,reactive,onUpdated,provide} from 'vue'
+import {onMounted,inject,reactive,ref,provide} from 'vue'
 import {getRecommendIndex} from '../../service/recommend'
+import {useHomeIndexStore} from '../../store/homeindex'
 
 const { changeReady } = inject('isReady')
 
@@ -33,8 +39,11 @@ const state = reactive({
     pageData:[],
     isready:false,
     closeId:-1,
-    hotword:'高校优化学科布点'
+    hotword:'高校优化学科布点',
+    loaddata:{}
 })
+
+const datastore = useHomeIndexStore()
 
 function gotoPage(path,pramas){
     router.push(path + '?' + pramas)
@@ -44,6 +53,7 @@ async function removeById(id){  // 这里做数据删除
     state.closeId = id
     await setTimeout(() => {
         state.pageData = state.pageData.filter((item) => item.id !== id)
+        state.loaddata.data = state.loaddata.data.filter((item) => item.id !== id)
         state.closeId = -1
     },600)
 }
@@ -54,6 +64,7 @@ provide('closeCard', {
 
 onMounted(async () => {
     state.pageData = await getRecommendIndex()
+    state.loaddata = datastore.pagedata
     await changeReady(true)
 })
 
@@ -129,5 +140,12 @@ main
             transition all 0.3s
         .negative
             opacity 0
-        
+footer
+    .loading
+        height 1.066667rem /* 40/37.5 */
+        display flex
+        align-items center
+        justify-content center
+        font-size .373333rem /* 14/37.5 */
+        color var(--color-light)
 </style>

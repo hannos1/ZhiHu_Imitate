@@ -33,13 +33,13 @@
             >
                 <template #listItem>
                     <Idea />
-                    <Recommend @changSearch="changSearch" />
+                    <Recommend @changSearch="changSearch" ref="recommend" />
                     <Hot />
                 </template>
             </MySwiper>
         </main>
         <footer class="home_footer">
-            <MyTabBar :current="state.current" />
+            <MyTabBar :current="state.current" :carry="backtop" />
         </footer>
     </div>
 </template>
@@ -60,8 +60,11 @@ const router = useRouter()
 const state = reactive({
     pageindex:1,
     current:'/home',
-    showSearch:false
+    showSearch:false,
+
 })
+
+const recommend = ref(null)
 
 const increaseIndex = (params) => {
     state.pageindex = params.p1
@@ -82,6 +85,11 @@ const gotoPage = (e) => {
     else{
         alert('还在开发中')
     }
+}
+
+function backtop(){
+    recommend.value.backtop()
+    return true
 }
 
 onMounted(() => {
@@ -125,7 +133,7 @@ onMounted(() => {
                 text-align center
                 position relative
                 &.active
-                    color #000
+                    color var(--color-base)
                     font-size .426667rem /* 16/37.5 */
                     font-weight 700
                     &:before

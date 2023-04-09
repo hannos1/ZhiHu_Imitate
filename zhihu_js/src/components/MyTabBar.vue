@@ -49,7 +49,12 @@ const props = defineProps({
     current:{
         type:String,
         default:''
-    }
+    },
+    carry:{
+        type:Function,
+        default:() => {
+        return false
+    }}
 })
 
 let writing = ref(null)
@@ -66,6 +71,7 @@ const state = reactive({
 const router = useRouter()
 
 const pageTo = (e) => {
+    let temp = props.carry()
     state.pagePath = e
     router.push(e)
 }

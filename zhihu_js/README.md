@@ -9,6 +9,8 @@
     npm i lodash
     npm i js-md5
     npm i vant 
+    npm install @better-scroll/pull-up --save
+    npm install @better-scroll/observe-dom --save
 
 - 开发避坑
     rem失效，发现是flexible库在一些屏幕会将根节点font-size大小设置为54而非屏幕宽度的百分之10

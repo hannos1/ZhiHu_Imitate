@@ -33,7 +33,7 @@
                     <div class="item_info__userName">{{ item.authorName }}</div>
                     <div class="item_likes__box">
                         <div class="item_info__likes">{{ item.likes }}</div>
-                        <i class="el-icon-magic-stick"></i>
+                        <van-icon name="like-o" />
                     </div>
                 </div>
                 <div class="item_tag">
@@ -145,9 +145,12 @@ onUpdated(() => {
                 max-height 1.173333rem /* 44/37.5 */
                 min-height .586667rem /* 22/37.5 */
                 white-space pre-wrap
-                word-wrap break-word
                 overflow hidden
                 position relative
+                word-break break-all
+                display -webkit-box
+                -webkit-line-clamp 2
+                -webkit-box-orient vertical
                 &:after
                     content ''
                     position absolute
@@ -155,19 +158,20 @@ onUpdated(() => {
                     top .586667rem /* 22/37.5 */
                     left 2.933333rem /* 110/37.5 */
                     bottom 0
-                    background-image linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 30%,rgba(255,255,255,0.7) 50%,rgba(255,255,255,0.9) 70%,rgba(255,255,255,1) 100%)
+                    // background-image linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 30%,rgba(255,255,255,0.7) 50%,rgba(255,255,255,0.9) 70%,rgba(255,255,255,1) 100%)
             .item_info,.item_tag
                 width 4rem /* 150/37.5 */
                 height .586667rem /* 22/37.5 */
                 margin 0 .266667rem .2666667rem .266667rem
                 display flex
                 overflow hidden
-                color rgba(0,0,0,0.2)
+                color var(--color-light)
                 .item_info__avatarImg
                     width .533333rem /* 20/37.5 */
                     height .533333rem /* 20/37.5 */
                     margin-top .026667rem /* 1/37.5 */
                     border-radius 50%
+                    background-color var(--color-base)
                     // background-color black
                 .item_info__userName
                     width 2.133333rem /* 80/37.5 */
@@ -194,8 +198,9 @@ onUpdated(() => {
                 height auto
                 .item_tag_box
                     .item_tag__item
-                        border 1px solid rgba(0,0,0,0.2)
-                        color rgba(0,0,0,0.2)
+                        border 1px solid var(--color-light)
+                        // color rgba(0,0,0,0.2)
+                        color var(--color-light)
                         line-height .533333rem /* 20/37.5 */
                         padding 0 .133333rem 0 .133333rem /* 5/37.5 */
                         border-radius .16rem /* 6/37.5 */

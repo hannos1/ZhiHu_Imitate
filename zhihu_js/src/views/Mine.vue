@@ -15,7 +15,7 @@
                 </template>
                 <template #right>
                     <div class="img_box__right">
-                        <img src="../assets/img/月亮.png" alt="">
+                        <img :src="`src/assets/img/${state.themeimg}.png`" alt="" @click="changeThemebtn">
                         <img src="../assets/img/设置.png" @click="exit" alt="">
                         <img src="../assets/img/提醒.png" alt="">
                     </div>
@@ -71,6 +71,9 @@ import BeforeLogin from '../components/login/BeforeLogin.vue'
 import AfterLogin from '../components/login/AfterLogin.vue'
 import {useUserStore} from '../store/user'
 import {getUser} from '../service/user'
+import {lighttheme,darktheme} from '../service/theme'
+import {changetheme} from '../assets/js/theme'
+import {useThemeStore} from '../store/theme'
 
 let pageSwiper = ref(null)
 let pageBs = null
@@ -78,13 +81,17 @@ const userStore = useUserStore()
 
 const router = useRouter()
 
+const themeStore = useThemeStore()
+
 const state = reactive({
     current:'/mine',
     isLogin:false,
     userinfo:{},
     concern:0,
     collection:0,
-    recent:0
+    recent:0,
+    themeimg:'dark',
+    theme:lighttheme
 })
 
 function gotoPage(path,pramas){
@@ -97,10 +104,25 @@ function exit(){
     state.concern = 0
     state.collection = 0
     state.recent = 0
-    // console.log('退出...')
+}
+
+function changeThemebtn(){
+    if(state.themeimg === 'dark'){ // 白天模式
+        state.themeimg = 'light'
+        state.theme = darktheme
+        themeStore.updateTheme('light')
+        changetheme(state.theme)
+    }else{// 夜间模式
+        state.themeimg = 'dark'
+        themeStore.updateTheme('dark')
+        state.theme = lighttheme
+        changetheme(state.theme)
+    }
 }
 
 onMounted(async () => {
+    themeStore.getTheme()
+    state.themeimg = themeStore.theme
     pageBs = new BScroll(pageSwiper.value,{
         probeType:3,
         scrollX:false,
