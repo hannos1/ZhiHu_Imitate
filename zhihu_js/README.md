@@ -1,17 +1,3 @@
-- 依赖包，项目运行异常时使用
-    npm i stylus 
-    npm i vue-router
-    npm i lib-flexible
-    npm i pinia
-    npm i mockjs
-    npm i axios
-    npm i better-scroll
-    npm i lodash
-    npm i js-md5
-    npm i vant 
-    npm install @better-scroll/pull-up --save
-    npm install @better-scroll/observe-dom --save
-
 - 开发避坑
     rem失效，发现是flexible库在一些屏幕会将根节点font-size大小设置为54而非屏幕宽度的百分之10
 
@@ -19,5 +5,5 @@
 
     foreach 不要直接return true
 
-    store 传出的响应式数据直接用proxy的,用对象内的不会同步
+    当store的简单数据为数组时，需要使用数组(vue封装后)的方法来修改原数组，否则不会重新渲染模板
     
